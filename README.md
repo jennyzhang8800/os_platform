@@ -22,7 +22,7 @@
 ```
 如下图所示：
 
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-install-0.png)
 
 然后找到80,和8080端口对应的pid
 输入：
@@ -69,7 +69,7 @@ sudo apt-get install curl openssh-server ca-certificates postfix
 
  出现下面的内容说明安装成功：
  
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-install-1.png)
 
 ####(3)添加gitlab 包服务并安装包
 输入下面的命令:
@@ -78,7 +78,7 @@ curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/scrip
 ```
 出现下面的内容仓库说明己安装好：
 
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-install-2.png)
 
 然后输入下面的命令安装包：
  ```
@@ -87,7 +87,7 @@ curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/scrip
  
  出现下面的内容说明安装好：
  
- ![netstat -anptl]()
+ ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-install-3.png)
  
  
 ####(4)配置并重启Gitlab
@@ -99,7 +99,7 @@ sudo gitlab-ctl reconfigure
 
 出现下面的内容说明配置成功：
 
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-install-4.png)
 
 ####(5)登录gitlab(访问http://localhost)
   在浏览器中输入：http://localhost 如果进入到登录页面，则说明gitlab己正确安装。
