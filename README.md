@@ -1,6 +1,11 @@
 # MOOC 平台
 以下配置文件涉及的内容有：gitlab的安装，Open edX的安装，利用Shibboleth实现以gitlab和Open edX作为两个SP实现SSO（单点登录）。
 <hr/>
+**目录**
++ [gitlab的安装](https://github.com/jennyzhang8800/os_platform#1gitlab的安装)
++ [Open edX的安装](https://github.com/jennyzhang8800/os_platform#2open-edx的安装)
++ [shibboleth](https://github.com/jennyzhang8800/os_platform#3shibboleth)
+<hr/>
 ##1.gitlab的安装
 ###1.1环境
 
