@@ -150,7 +150,7 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 [insights | run r.js optimizer]*******************************************************************
 
 找不到jquery.js脚本。错误提示如下：
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-0.png)
 
 ####解决方法：
 (1)下载jquery.js 。下载地址：https://jquery.com/  ,把下载的jquery-3.1.1.js(任何一个版本都可以) 重命名为jquery.js
@@ -169,7 +169,7 @@ stderr:CommandError:Anerror occurred during rendering .....
 
 错误截图如下：
 
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-1.png)
 
 ####解决方法：
 使用java-7-openjdk 设置环境变量，通过以下步骤实现：
@@ -181,7 +181,7 @@ sudo update-alternatives --config java
 选择java-7-openjdk
 
 如下图所示：
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-2.png)
 
 (2)设置环境变量：
 
@@ -198,7 +198,7 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 ```
 ----------------------------
 如果出现红色（fail）,但是又ignoring，则可以不用管，还是会安装成功的。如出现[mysql | Look for mysql 5.6]失败，后面它ignoring了，也不会影响安装成功。
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-3.png)
 
 ##3.Shibboleth
 
