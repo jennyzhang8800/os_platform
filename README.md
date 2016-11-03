@@ -10,6 +10,8 @@
  + [部署LDAP服务器](https://github.com/jennyzhang8800/os_platform#31部署ldap服务器)
  + 部置IdP
 
+[你好](#jump)
+
 <hr/>
 
 ##1.gitlab的安装
@@ -100,7 +102,7 @@ curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/scrip
  
  ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-install-3.png)
  
- 
+ <span id = "jump">hehe</span>
 ####(4)配置并重启Gitlab
 
 输入下面的命令：
