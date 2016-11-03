@@ -4,9 +4,11 @@
 
 **目录**
 
-+ [gitlab的安装](https://github.com/jennyzhang8800/os_platform#1gitlab的安装)
-+ [Open edX的安装](https://github.com/jennyzhang8800/os_platform#2open-edx的安装)
-+ [shibboleth](https://github.com/jennyzhang8800/os_platform#3shibboleth)
+* [gitlab的安装](https://github.com/jennyzhang8800/os_platform#1gitlab的安装)
+* [Open edX的安装](https://github.com/jennyzhang8800/os_platform#2open-edx的安装)
+* [shibboleth](https://github.com/jennyzhang8800/os_platform#3shibboleth)
+ + 部署LDAP服务器
+ + 部置IdP
 
 <hr/>
 
@@ -210,4 +212,59 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-3.png)
 
 ##3.Shibboleth
+###3.1部署LDAP服务器.
 
+
+####3.1.1 安装OpenLDAP即可视化工具
+
+[我们所使用的OpenLDAP镜像](http://www.turnkeylinux.org/openldap)
+
+该镜像已包含phpldapadmin(方便网页端访问LDAP),若从其他渠道安装LDAP,请自行安装该工具。
+
+####3.1.2 利用eduperson.ldif创建模式eduPerson
+
+    ldapadd -Y EXTERNAL -H ldapi:/// -f <path of eduperson.ldif>
+    
+####3.1.3 登录管理员账号创建存储用户的结点,例如ou=Users,dc=cscw
+
+或者使用命令行添加Users节点:
+
+	ldapadd -x -D "cn=admin,dc=cscw" -W -f create_group.ldif
+ 
+把上面代码中的"cn=admin,dc=cscw" 换成你登录ldapadmin时的LoginDN。LoginDN的位置如下图所示
+
+####3.1.4 test_ldap.py可用于测试OpenLDAP是否正常工作(修改其中的ip,baseDN以及searchFilter参数,保持与IDP中的配置一致,
+详细可参考shibboleth仓库中的配置文件)
+
+####3.1.5 create_user.ldif用于手动创建用户(修改其中的用户参数)
+
+    ldapadd -x -D "cn=admin,dc=cscw" -W -f create_user.ldif 
+    
+把上面代码中的"cn=admin,dc=cscw" 换成你登录ldapadmin时的LoginDN。
+
+![netstat -anptl]()
+
+create_user.ldif的内容如下：
+```
+dn: uid=Tom,ou=Users,dc=cscw
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: eduPerson
+uid: Tom
+sn: Tom
+givenName:Tom
+cn:Tom
+mail:yannizhang8800@163.com
+userPassword: 123456
+eduPersonPrincipalName:yannizhang8800@163.com
+```
+
+把代码中所有的Tom换成你要新建的用户名;
+
+yannizhang8800@163.com 换成该用户名对应的邮箱，注意邮箱应是唯一的，因为Open edX是以邮箱为主键的。
+
+123456 换成该用户的密码
+
+第一行中的 ou=Users,dc=cscw换成你的实际路径。如下图，我们创建的新用户Tom，位于dc=cscw下面的ou=Users下，所以第一行写的是ou=Users,dc=cscw
+
+![netstat -anptl]()
