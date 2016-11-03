@@ -7,7 +7,7 @@
 * [gitlab的安装](https://github.com/jennyzhang8800/os_platform#1gitlab的安装)
 * [Open edX的安装](https://github.com/jennyzhang8800/os_platform#2open-edx的安装)
 * [shibboleth](https://github.com/jennyzhang8800/os_platform#3shibboleth)
- + 部署LDAP服务器
+ + [部署LDAP服务器](/#31部署ldap服务器)
  + 部置IdP
 
 <hr/>
@@ -242,7 +242,7 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
     
 把上面代码中的"cn=admin,dc=cscw" 换成你登录ldapadmin时的LoginDN。
 
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/openLdap-0.png)
 
 create_user.ldif的内容如下：
 ```
@@ -267,4 +267,4 @@ yannizhang8800@163.com 换成该用户名对应的邮箱，注意邮箱应是唯
 
 第一行中的 ou=Users,dc=cscw换成你的实际路径。如下图，我们创建的新用户Tom，位于dc=cscw下面的ou=Users下，所以第一行写的是ou=Users,dc=cscw
 
-![netstat -anptl]()
+![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/openldap-1.png)
