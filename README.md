@@ -7,7 +7,7 @@
 * [gitlab的安装](https://github.com/jennyzhang8800/os_platform#1gitlab的安装)
 * [Open edX的安装](https://github.com/jennyzhang8800/os_platform#2open-edx的安装)
 * [shibboleth](https://github.com/jennyzhang8800/os_platform#3shibboleth)
- + [部署LDAP服务器](/#31部署ldap服务器)
+ + [部署LDAP服务器](https://github.com/jennyzhang8800/os_platform#31部署ldap服务器)
  + 部置IdP
 
 <hr/>
@@ -211,7 +211,10 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 如果出现红色（fail）,但是又ignoring，则可以不用管，还是会安装成功的。如出现[mysql | Look for mysql 5.6]失败，后面它ignoring了，也不会影响安装成功。
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-3.png)
 
+
+------------------------------
 ##3.Shibboleth
+
 ###3.1部署LDAP服务器.
 
 
@@ -268,3 +271,123 @@ yannizhang8800@163.com 换成该用户名对应的邮箱，注意邮箱应是唯
 第一行中的 ou=Users,dc=cscw换成你的实际路径。如下图，我们创建的新用户Tom，位于dc=cscw下面的ou=Users下，所以第一行写的是ou=Users,dc=cscw
 
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/openldap-1.png)
+
+###3.2部署IdP
+####3.2.1 环境
+IDP版本：2.4.4
+
+操作系统：Ubuntu12.04 64bit
+
+####3.2.2 安装IdP
+
+#####3.2.2.1安装oracle jdk
+依次输入下面的4条命令：
+```
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java7-installer
+```
+
+#####3.2.2.2安装apache及tomcat7
+依次输入下面的4条命令：
+```
+sudo apt-get install apache2
+sudo a2enmod ssl
+sudo a2enmod proxy_ajp
+sudo apt-get install tomcat7
+```
+
+#####3.2.2.3配置apache和tomcat
+**(1)更改本机域名**
+
+输入下面的命令：
+```
+sudo vi /etc/hosts  
+```
+
+加入下面的内容：
+```
+127.0.0.1	idp.edx.org	shibboleth
+```
+把idp.edx.org换成你的IdP机器的域名
+
+**(2)更改apache ServerName**
+
+输入下面的命令：
+```
+sudo vi /etc/apache2/apache2.conf
+```
+
+加入下面的内容：
+```
+ServerName idp.edx.org
+```
+把idp.edx.org换成你的IdP机器的域名
+
+**(3)设置JAVA_OPTS 环境变量**
+
+输入下面的命令：
+
+```
+sudo vi /etc/init.d/tomcat7  
+```
+
+找到JAVA_OPTS ，添加参数：-XX:+UseG1GC -Xmx1500m -XX:MaxPermSize=128m 
+
+如下图所示：
+![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-2.png)
+
+**(4)设置POST提交限制**
+
+输入下面的命令：
+```
+sudo vi /etc/tomcat7/server.xml  
+```
+
+找到 Connector ,添加属性maxPostSize ，设置值为100K(100000)
+
+如下图：
+![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-3.png)
+
+**(5)使用Context Deployment Fragment**
+
+输入下面的命令：
+
+```
+sudo vi /etc/tomcat7/Catalina/localhost/idp.xml 
+```
+
+输入下面的命令创建文件 *TOMCAT_HOME*/conf/Catalina/localhost/idp.xml （*TOMCAT_HOME* 是你的tomact安装路径，这里是/etc/tomcat7）
+```
+sudo vi /etc/tomcat7/Catalina/localhost/idp.xml
+
+```
+在新建的文件idp.xml中添加下面的内容：
+```
+<Context docBase="/opt/shibboleth-idp/war/idp.war"
+         privileged="true"
+	 antiResourceLocking="false"
+	 antiJARLocking="false"
+	 unpackWAR="false"
+	 swallowOutput="true"
+	 cookies="false" />
+```
+
+#####3.2.2.4 安装IdP
+输入下面的命令：
+```
+sudo wget http://shibboleth.net/downloads/identity-provider/2.4.4/shibboleth-identityprovider-2.4.4-bin.zip
+sudo unzip shibboleth-identityprovider-2.4.4-bin.zip
+cd shibboleth-identityprovider-2.4.4
+sudo JAVA_HOME=/usr/lib/jvm/java-7-oracle ./install.sh
+sudo chown -R tomcat6:tomcat6 /opt/shibboleth-idp
+```
+
+安装过程中安装路径不用改。hostname改为：idp.edx.org。会要求设置密码：这里设为shibboleth.如下图所示：
+![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-5.png)
+![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-6.png)
+
+检查IdP是否安装成功，访问：http://idp.edx.org:8080/idp/profile/Status 把idp.edx.org换成你设置的hostname ，如果输出OK则说明安装正确
+![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-8.png)
+图片中Status文件的内容是OK
