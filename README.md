@@ -8,7 +8,7 @@
 * [Open edX的安装](https://github.com/jennyzhang8800/os_platform#2open-edx的安装)
 * [shibboleth](https://github.com/jennyzhang8800/os_platform#3shibboleth)
  + [部署LDAP服务器](https://github.com/jennyzhang8800/os_platform#31部署ldap服务器)
- + 部署IdP(https://github.com/jennyzhang8800/os_platform#32部署idp)
+ + [部署IdP](https://github.com/jennyzhang8800/os_platform#32部署idp)
 
 
 <hr/>
