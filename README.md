@@ -218,10 +218,10 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 
 # 3.Shibboleth
 
-## 3.1部署LDAP服务器.
+## 3.1 部署LDAP服务器.
 
 
-### 3.1.1 安装OpenLDAP即可视化工具
+### 3.1.1 安装OpenLDAP及可视化工具
 
 [我们所使用的OpenLDAP镜像](http://www.turnkeylinux.org/openldap)
 
@@ -277,7 +277,7 @@ eduPersonPrincipalName:yannizhang8800@163.com
 
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/openldap-1.png)
 
-## 3.2部署IdP
+## 3.2 安装IdP
 ### 3.2.1 环境
 IDP版本：2.4.4
 
@@ -402,3 +402,43 @@ sudo chown -R tomcat6:tomcat6 /opt/shibboleth-idp
 ![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-8.png)
 
 图片中Status文件的内容是OK
+
+如果出现错误,请查看日志:/opt/shibboleth-idp/logs/idp-process.log
+
+[官方的问题解答列表](https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPTroubleshootingCommonErrors#NativeSPTroubleshootingCommonErrors-Unabletolocatemetadataforidentityprovider(https://identities.supervillain.edu/idp/shibboleth).)
+
+
+## 3.2 配置IdP与OpenLdapl连接
+
+在配置前,请使用test_ldap.py保证LDAP正常工作。在IdP机器上运行test_ldap.py脚本。test_ldap.py脚本内容如下：
+```
+import ldap
+
+ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
+l = ldap.initialize("ldap://192.168.1.138")
+l.set_option(ldap.OPT_REFERRALS, 0)
+l.set_option(ldap.OPT_PROTOCOL_VERSION, 3)
+l.set_option(ldap.OPT_X_TLS,ldap.OPT_X_TLS_DEMAND)
+l.set_option( ldap.OPT_X_TLS_DEMAND, True )
+l.set_option( ldap.OPT_DEBUG_LEVEL, 255 )
+baseDN = "ou=Users,dc=cscw"
+searchScope = ldap.SCOPE_SUBTREE
+retrieveAttributes = None
+searchFilter = "cn=*Tom*"
+ldap_result_id = l.search(baseDN, searchScope, searchFilter)
+result_set = []
+while 1:
+    result_type, result_data = l.result(ldap_result_id, 0)
+    if (result_data == []):
+        break
+    else:
+        if result_type == ldap.RES_SEARCH_ENTRY:
+            result_set.append(result_data)
+    print result_set
+```
+
+把上图中的
++ l = ldap.initialize("ldap://192.168.1.138")   中的192.168.1.138改为openldapIP
++ baseDN = "ou=Users,dc=cscw"  改为你的baseDN
++ searchFilter = "cn=*Tom*"    Tom改为dc=cscw ou=Users下的一个用户名
+
