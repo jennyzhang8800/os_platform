@@ -8,7 +8,7 @@
 * [Open edX的安装](https://github.com/jennyzhang8800/os_platform#2open-edx的安装)
 * [shibboleth](https://github.com/jennyzhang8800/os_platform#3shibboleth)
  + [部署LDAP服务器](https://github.com/jennyzhang8800/os_platform#31部署ldap服务器)
- + 部署IdP((https://github.com/jennyzhang8800/os_platform#32部署IdP))
+ + 部署IdP(https://github.com/jennyzhang8800/os_platform#32部署idp)
 
 
 <hr/>
@@ -342,6 +342,7 @@ sudo vi /etc/init.d/tomcat7
 找到JAVA_OPTS ，添加参数：-XX:+UseG1GC -Xmx1500m -XX:MaxPermSize=128m 
 
 如下图所示：
+
 ![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-2.png)
 
 **(4)设置POST提交限制**
@@ -354,6 +355,7 @@ sudo vi /etc/tomcat7/server.xml
 找到 Connector ,添加属性maxPostSize ，设置值为100K(100000)
 
 如下图：
+
 ![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-3.png)
 
 **(5)使用Context Deployment Fragment**
@@ -391,9 +393,12 @@ sudo chown -R tomcat6:tomcat6 /opt/shibboleth-idp
 ```
 
 安装过程中安装路径不用改。hostname改为：idp.edx.org。会要求设置密码：这里设为shibboleth.如下图所示：
+
 ![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-5.png)
 ![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-6.png)
 
 检查IdP是否安装成功，访问：http://idp.edx.org:8080/idp/profile/Status 把idp.edx.org换成你设置的hostname ，如果输出OK则说明安装正确
+
 ![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-8.png)
+
 图片中Status文件的内容是OK
