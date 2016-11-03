@@ -10,22 +10,21 @@
  + [部署LDAP服务器](https://github.com/jennyzhang8800/os_platform#31部署ldap服务器)
  + 部置IdP
 
-[你好](#jump)
 
 <hr/>
 
-##1.gitlab的安装
-###1.1环境
+# 1.gitlab的安装
+## 1.1环境
 
     gitlab版本：GitLab CE Omnibus 
     
     操作系统：ubuntu 12.04 64bit
     
-###1.2安装gitlab
+## 1.2安装gitlab
 
    下面的安装步骤参考的是[官方文档](https://about.gitlab.com/downloads/#ubuntu1204)
     
-####(1). 安装前查看端口状态，并把80和8080端口解除占用
+### (1). 安装前查看端口状态，并把80和8080端口解除占用
 
    由于gitlab安装结束后会占用80和8080端口，所以如果你的操作系统中己有apache,tomcat那么这两个端口是处于占用状态的，会导致安装gitlab后访问localhost时出现502错误。因此，我们先释放这两个端口。
    
@@ -72,7 +71,7 @@ sudo service tomcat7 restart
 ```
 
 ----------end--------------
-####(2)安装和配置必要的依赖
+### (2)安装和配置必要的依赖
 
 输入下面的命令：
 ```
@@ -84,7 +83,7 @@ sudo apt-get install curl openssh-server ca-certificates postfix
  
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-install-1.png)
 
-####(3)添加gitlab 包服务并安装包
+### (3)添加gitlab 包服务并安装包
 输入下面的命令:
 ```
 curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
@@ -102,8 +101,8 @@ curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/scrip
  
  ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-install-3.png)
  
- <span id = "jump">hehe</span>
-####(4)配置并重启Gitlab
+ 
+### (4)配置并重启Gitlab
 
 输入下面的命令：
 ```
@@ -114,28 +113,29 @@ sudo gitlab-ctl reconfigure
 
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-install-4.png)
 
-####(5)登录gitlab(访问http://localhost)
+### (5)登录gitlab(访问http://localhost)
   在浏览器中输入：http://localhost 如果进入到登录页面，则说明gitlab己正确安装。
   首次访问gitlab,会直接重定向到设置密码屏幕，初始用户名是root。
-##2.Open edX的安装
-###2.1 环境
+  
+# 2.Open edX的安装
+## 2.1 环境
 
 Open edX版本：Open edX Fullstack
 
 操作系统：Ubuntu12.04 64bit
 
-###2.2 服务器要求
+## 2.2 服务器要求
 
 + Ubuntu 12.04 amd64
 + 最小4GB内存
 + 至少一个2GHz CPU 或 EC2 计算单元
 + 最小25GB可用硬盘，生产服务器需要最小50GB可用硬盘
 
-###2.3 安装Open edX
+## 2.3 安装Open edX
 
 以下安装步骤参考的是[此文档](https://openedx.atlassian.net/wiki/display/OpenOPS/Native+Open+edX+Ubuntu+12.04+64+bit+Installation#title-heading)，采用的是自动安装的方法进行安装。
 
-####(1) 更新源和升级软件
+### (1) 更新源和升级软件
 
 依次输入下面的三条命令：
 ```
@@ -143,7 +143,7 @@ sudo apt-get update -y
 sudo apt-get upgrade -y  
 sudo reboot  
 ```
-####(2)安装Open edX
+### (2)安装Open edX
 
 依次输入下面的两条命令：
 ```
@@ -159,13 +159,13 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 ---------------------
 下面是我在安装过程中出现的错误，及解决方法：
 
-####错误1：
+#### 错误1：
 [insights | run r.js optimizer]*******************************************************************
 
 找不到jquery.js脚本。错误提示如下：
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-0.png)
 
-####解决方法：
+#### 解决方法：
 (1)下载jquery.js 。下载地址：https://jquery.com/  ,把下载的jquery-3.1.1.js(任何一个版本都可以) 重命名为jquery.js
 
 (2)把下载好的jquery.js文件放到/edx/app/insights/edx_analytics_dashboard/analytics_dashboard/static/bower_components/jquery/dist/目录下
@@ -175,7 +175,7 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 wget https://raw.githubusercontent.com/edx/configuration/master/util/install/sandbox.sh -O - | bash
 ```
 
-####错误2：
+#### 错误2：
 [insights | run collectstatics]******************************************************************************
 
 stderr:CommandError:Anerror occurred during rendering .....
@@ -184,7 +184,7 @@ stderr:CommandError:Anerror occurred during rendering .....
 
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-1.png)
 
-####解决方法：
+#### 解决方法：
 使用java-7-openjdk 设置环境变量，通过以下步骤实现：
 
 (1)输入下面的命令：
@@ -214,23 +214,24 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-3.png)
 
 
-------------------------------
-##3.Shibboleth
+---
 
-###3.1部署LDAP服务器.
+# 3.Shibboleth
+
+## 3.1部署LDAP服务器.
 
 
-####3.1.1 安装OpenLDAP即可视化工具
+### 3.1.1 安装OpenLDAP即可视化工具
 
 [我们所使用的OpenLDAP镜像](http://www.turnkeylinux.org/openldap)
 
 该镜像已包含phpldapadmin(方便网页端访问LDAP),若从其他渠道安装LDAP,请自行安装该工具。
 
-####3.1.2 利用eduperson.ldif创建模式eduPerson
+### 3.1.2 利用eduperson.ldif创建模式eduPerson
 
     ldapadd -Y EXTERNAL -H ldapi:/// -f <path of eduperson.ldif>
     
-####3.1.3 登录管理员账号创建存储用户的结点,例如ou=Users,dc=cscw
+### 3.1.3 登录管理员账号创建存储用户的结点,例如ou=Users,dc=cscw
 
 或者使用命令行添加Users节点:
 
@@ -238,10 +239,10 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
  
 把上面代码中的"cn=admin,dc=cscw" 换成你登录ldapadmin时的LoginDN。LoginDN的位置如下图所示
 
-####3.1.4 test_ldap.py可用于测试OpenLDAP是否正常工作(修改其中的ip,baseDN以及searchFilter参数,保持与IDP中的配置一致,
+### 3.1.4 test_ldap.py可用于测试OpenLDAP是否正常工作(修改其中的ip,baseDN以及searchFilter参数,保持与IDP中的配置一致,
 详细可参考shibboleth仓库中的配置文件)
 
-####3.1.5 create_user.ldif用于手动创建用户(修改其中的用户参数)
+### 3.1.5 create_user.ldif用于手动创建用户(修改其中的用户参数)
 
     ldapadd -x -D "cn=admin,dc=cscw" -W -f create_user.ldif 
     
@@ -264,25 +265,27 @@ userPassword: 123456
 eduPersonPrincipalName:yannizhang8800@163.com
 ```
 
-把代码中所有的Tom换成你要新建的用户名;
++ 把代码中所有的Tom换成你要新建的用户名;
 
-yannizhang8800@163.com 换成该用户名对应的邮箱，注意邮箱应是唯一的，因为Open edX是以邮箱为主键的。
++ yannizhang8800@163.com 换成该用户名对应的邮箱，注意邮箱应是唯一的，因为Open edX是以邮箱为主键的。
 
-123456 换成该用户的密码
++ 123456 换成该用户的密码
 
-第一行中的 ou=Users,dc=cscw换成你的实际路径。如下图，我们创建的新用户Tom，位于dc=cscw下面的ou=Users下，所以第一行写的是ou=Users,dc=cscw
++ 第一行中的 ou=Users,dc=cscw换成你的实际路径。
+
+如下图，我们创建的新用户Tom，位于dc=cscw下面的ou=Users下，所以第一行写的是ou=Users,dc=cscw
 
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/openldap-1.png)
 
-###3.2部署IdP
-####3.2.1 环境
+## 3.2部署IdP
+### 3.2.1 环境
 IDP版本：2.4.4
 
 操作系统：Ubuntu12.04 64bit
 
-####3.2.2 安装IdP
+### 3.2.2 安装IdP
 
-#####3.2.2.1安装oracle jdk
+#### 3.2.2.1安装oracle jdk
 依次输入下面的4条命令：
 ```
 sudo apt-get install python-software-properties
@@ -291,7 +294,7 @@ sudo apt-get update
 sudo apt-get install oracle-java7-installer
 ```
 
-#####3.2.2.2安装apache及tomcat7
+#### 3.2.2.2安装apache及tomcat7
 依次输入下面的4条命令：
 ```
 sudo apt-get install apache2
@@ -300,7 +303,8 @@ sudo a2enmod proxy_ajp
 sudo apt-get install tomcat7
 ```
 
-#####3.2.2.3配置apache和tomcat
+#### 3.2.2.3配置apache和tomcat
+
 **(1)更改本机域名**
 
 输入下面的命令：
@@ -376,7 +380,7 @@ sudo vi /etc/tomcat7/Catalina/localhost/idp.xml
 	 cookies="false" />
 ```
 
-#####3.2.2.4 安装IdP
+#### 3.2.2.4 安装IdP
 输入下面的命令：
 ```
 sudo wget http://shibboleth.net/downloads/identity-provider/2.4.4/shibboleth-identityprovider-2.4.4-bin.zip
