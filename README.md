@@ -727,7 +727,8 @@ vi /edx/app/edxapp/lms.auth.json
    
    ![open-edx-sp-conf-5]()
    
- #### 3.3.2.3 配置open edx作为SP，生成原数据
+#### 3.3.2.3 配置open edx作为SP，生成原数据
+
 **（1）登录到Django 管理界面。**
 
 URL为http://{your_URL}/admin ，如这里的是:http://cherry.os.cs.tsinghua.edu.cn
@@ -746,7 +747,7 @@ URL为http://{your_URL}/admin ，如这里的是:http://cherry.os.cs.tsinghua.ed
 
  ![open-edx-sp-conf-8]()
  
-** （3）选中Enabled，输入下面的信息：**
+**（3）选中Enabled，输入下面的信息：**
     
 + **Entity ID**: 这会作为生成的原数据中的entity_id。一般输入服务器名，如： http://saml.mydomain.com/. （我这里的是http://cherry.os.cs.tsinghua.edu.cn）
 
@@ -884,17 +885,18 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 
 右下角：点Save保存。
 
-  ![open-edx-sp-conf-14]()
+ ![open-edx-sp-conf-14]()
   
-    ![open-edx-sp-conf-15]()
+ ![open-edx-sp-conf-15]()
     
 保存后结果如下图所示：
 
-  ![open-edx-sp-conf-16]()
+ ![open-edx-sp-conf-16]()
   
-    ![open-edx-sp-conf-17]()
+ ![open-edx-sp-conf-17]()
+ 
     
- ### 3.3.4 检测是否配置成功
+### 3.3.4 检测是否配置成功
  
  (1). 在管理界面（http://cherry.os.cs.tsinghua.edu.cn/admin），进入到Third_Party_Auth下的Provider Configuration(SAML IdPs)界面。查看Metadata Ready是否是绿色的勾，如果是测说明能够正确获取IdP原数据。
  
