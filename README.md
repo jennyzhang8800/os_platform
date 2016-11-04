@@ -392,7 +392,7 @@ sudo JAVA_HOME=/usr/lib/jvm/java-7-oracle ./install.sh
 sudo chown -R tomcat6:tomcat6 /opt/shibboleth-idp
 ```
 
-安装过程中安装路径不用改。hostname改为：idp.edx.org。会要求设置密码：这里设为shibboleth.如下图所示：
+安装过程中安装路径不用改。hostname改为：idp.edx.org。(把idp.edx.org换成你的IdP机器的域名),会要求设置密码：这里设为shibboleth.如下图所示：
 
 ![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-5.png)
 ![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-install-6.png)
@@ -408,9 +408,12 @@ sudo chown -R tomcat6:tomcat6 /opt/shibboleth-idp
 [官方的问题解答列表](https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPTroubleshootingCommonErrors#NativeSPTroubleshootingCommonErrors-Unabletolocatemetadataforidentityprovider(https://identities.supervillain.edu/idp/shibboleth).)
 
 
-## 3.2 配置IdP与OpenLdapl连接
+## 3.2 配置IdP与OpenLdap连接
 
-在配置前,请使用test_ldap.py保证LDAP正常工作。在IdP机器上运行test_ldap.py脚本。test_ldap.py脚本内容如下：
+### 3.2.1 在配置前,请使用test_ldap.py保证LDAP正常工作。
+
+在IdP机器上运行test_ldap.py脚本。test_ldap.py脚本内容如下：
+
 ```
 import ldap
 
@@ -438,7 +441,163 @@ while 1:
 ```
 
 把上图中的
-+ l = ldap.initialize("ldap://192.168.1.138")   中的192.168.1.138改为openldapIP
++ l = ldap.initialize("ldap://192.168.1.138")   中的192.168.1.138改为openldap的IP
 + baseDN = "ou=Users,dc=cscw"  改为你的baseDN
-+ searchFilter = "cn=*Tom*"    Tom改为dc=cscw ou=Users下的一个用户名
++ searchFilter = "cn=*Tom*"    *Tom*改为dc=cscw ou=Users下的一个用户名
 
+在IdP机器上运行test_ldap.py后应该返回用户名为Tom的一些属性信息（这些属性就是3.1.5中创建用户Tom时所设置的属性）。如下图所示：
+
+![picture-test_ldap.py]()
+
+如果能正常获得上图所示的用户信息，则说明ldap正常工作，可以进行配置ldap验证了，通过以下步骤实现：
+
+### 3.2.2 属性定义attribute-resolver.xml
+
+输入下面的命令：
+
+`sudo vi /opt/shibboleth-idp/conf/attribute-resolver.xml`
+
+(1)在Attribute Definitions下面加入下面的内容：
+
+```
+<resolver:AttributeDefinition xsi:type="ad:Simple" id="uid" sourceAttributeID="uid">
+        <resolver:Dependency ref="myLDAP" />
+        <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:uid" />
+        <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:0.9.2342.19200300.100.1.1" friendlyName="uid" />
+    </resolver:AttributeDefinition>
+
+    <resolver:AttributeDefinition xsi:type="ad:Simple" id="email" sourceAttributeID="mail">
+        <resolver:Dependency ref="myLDAP" />
+        <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:mail" />
+        <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:0.9.2342.19200300.100.1.3" friendlyName="mail" />
+    </resolver:AttributeDefinition>
+
+<resolver:AttributeDefinition xsi:type="ad:Simple" id="commonName" sourceAttributeID="cn">
+    <resolver:Dependency ref="myLDAP" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:cn" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.3" friendlyName="cn" />
+</resolver:AttributeDefinition>
+
+<resolver:AttributeDefinition xsi:type="ad:Simple" id="eppn" sourceAttributeID="eduPersonPrincipalName">
+    <resolver:Dependency ref="myLDAP" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eppn" />
+</resolver:AttributeDefinition>
+
+```
+
+如下图所示：
+
+![picture]()
+
+
+(2)取消下面内容的注释，并修改参数：
+
+```
+<resolver:DataConnector id="myLDAP" xsi:type="dc:LDAPDirectory"
+    ldapURL="ldap://192.168.1.138:389" 
+    baseDN="ou=Users,dc=cscw" 
+    principal="cn=admin,dc=cscw"
+    principalCredential="1234567">
+    <dc:FilterTemplate>
+        <![CDATA[
+            (uid=$requestContext.principalName)
+        ]]>
+    </dc:FilterTemplate>
+    </resolver:DataConnector>
+```
+
++ 第二行 192.168.1.138:389 ， 改为 你的ldap的IP地址加上端口号389 ,  注意：如果你用的是http协议，一定不能把端口号389省去！
++ 第三行 baseDN 改为你存放的用户在ldap中的baseDN
++ 第四行 principal 改为登录ldap时的Login DN (如3.1.5的图片所示的Login DN)
++ 第五行 principalCredential 改为登录ldap时的密码（如3.1.5的图片所示的Password）
+
+
+### 3.2.3 更改attribute-filter.xml
+
+输入下面的命令:
+
+`sudo vi /opt/shibboleth-idp/conf/attribute-filter.xml`
+
+加入下面的内容：
+
+```
+<afp:AttributeRule attributeID="uid">
+    <afp:PermitValueRule xsi:type="basic:ANY" />
+</afp:AttributeRule>
+
+<afp:AttributeRule attributeID="email">
+    <afp:PermitValueRule xsi:type="basic:ANY" />
+</afp:AttributeRule>
+
+<afp:AttributeRule attributeID="commonName">
+    <afp:PermitValueRule xsi:type="basic:ANY" />
+</afp:AttributeRule>
+
+<afp:AttributeRule attributeID="eppn">
+    <afp:PermitValueRule xsi:type="basic:ANY" />
+</afp:AttributeRule>
+```
+如下图所示：
+
+![picture-idp-ldap-conf-2]()
+
+
+### 3.2.4 更改handler.xml
+
+输入下面的命令：
+
+`sudo vi /opt/shibboleth-idp/conf/handler.xml`
+
+取消下面内容的注释：
+
+```
+<!--  Username/password login handler -->
+<ph:LoginHandler xsi:type="ph:UsernamePassword"
+    jaasConfigurationLocation="file:///opt/shibboleth-idp/conf/login.config">
+<ph:AuthenticationMethod>urn:oasis:names:tc:SAML:2.0:ac:classes:
+    PasswordProtectedTransport</ph:AuthenticationMethod>
+</ph:LoginHandler></code>
+```
+
+注释下面的内容：
+
+```
+<ph:LoginHandler xsi:type="ph:RemoteUser">
+        <ph:AuthenticationMethod>urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified</ph:AuthenticationMethod>
+    </ph:LoginHandler>
+```
+
+```
+ <ph:LoginHandler xsi:type="ph:PreviousSession">
+        <ph:AuthenticationMethod>urn:oasis:names:tc:SAML:2.0:ac:classes:PreviousSession</ph:AuthenticationMethod>
+    </ph:LoginHandler>
+```
+
+如下图所示：
+
+![idp-ldap-conf-4]()
+
+### 3.2.5 更改login.config
+
+输入下面的命令：
+
+`sudo vi /opt/shibboleth-idp/conf/login.config`
+
+取消下面内容的注释：
+```
+edu.vt.middleware.ldap.jaas.LdapLoginModule required
+    ldapUrl="ldap://192.168.1.138:389"
+    baseDn="ou=Users,dc=cscw"
+    ssl="false"
+    //userFilter="uid={0}";
+    userField="uid";
+```
+
+如下图所示：
+
+![idp-ldap-conf-5]()
+
+### 3.2.6 测试idp 与ldap 连接是否正常
+
+运行aacli.sh 脚本可测试两者连接是否正常
