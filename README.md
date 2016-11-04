@@ -447,7 +447,7 @@ while 1:
 
 在IdP机器上运行test_ldap.py后应该返回用户名为Tom的一些属性信息（这些属性就是3.1.5中创建用户Tom时所设置的属性）。如下图所示：
 
-![picture-test_ldap.py]()
+![picture-test_ldap.py](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/test_ldap.py%E7%BB%93%E6%9E%9C.png)
 
 如果能正常获得上图所示的用户信息，则说明ldap正常工作，可以进行配置ldap验证了，通过以下步骤实现：
 
@@ -488,7 +488,7 @@ while 1:
 
 如下图所示：
 
-![picture]()
+![idp-ldap-conf-0](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-ldap-conf-0.png)
 
 
 (2)取消下面内容的注释，并修改参数：
@@ -540,7 +540,7 @@ while 1:
 ```
 如下图所示：
 
-![picture-idp-ldap-conf-2]()
+![picture-idp-ldap-conf-2](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-ldap-conf-2.png)
 
 
 ### 3.2.4 更改handler.xml
@@ -576,7 +576,7 @@ while 1:
 
 如下图所示：
 
-![idp-ldap-conf-4]()
+![idp-ldap-conf-3](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-ldap-conf-3.png)
 
 ### 3.2.5 更改login.config
 
@@ -596,7 +596,7 @@ edu.vt.middleware.ldap.jaas.LdapLoginModule required
 
 如下图所示：
 
-![idp-ldap-conf-5]()
+![idp-ldap-conf-5](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-ldap-conf-5.png)
 
 ### 3.2.6 测试idp 与ldap 连接是否正常
 
@@ -610,4 +610,4 @@ export JAVA_HOME=/usr/lib/jvm/java-7-oracle
 
 ```
 可以看到下图所示的结果，即ldap返回的Tom用户的有关属性（uid,cn,eppn,mail） 以及属性的值(Tom,Tom,yannizhang8800@163.com,yannizhang8800@163.com),如果能返回这些信息，说明idp与ldap能正常连接。
-![idp-ldap-conf-6]()
+![idp-conf-6](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-conf-6.png)
