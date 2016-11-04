@@ -601,3 +601,13 @@ edu.vt.middleware.ldap.jaas.LdapLoginModule required
 ### 3.2.6 测试idp 与ldap 连接是否正常
 
 运行aacli.sh 脚本可测试两者连接是否正常
+
+输入下面的命令：
+
+```
+export JAVA_HOME=/usr/lib/jvm/java-7-oracle
+./aacli.sh --configDir=/opt/shibboleth-idp/conf/ --principal=Tom
+
+```
+可以看到下图所示的结果，即ldap返回的Tom用户的有关属性（uid,cn,eppn,mail） 以及属性的值(Tom,Tom,yannizhang8800@163.com,yannizhang8800@163.com),如果能返回这些信息，说明idp与ldap能正常连接。
+![idp-ldap-conf-6]()
