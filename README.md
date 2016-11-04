@@ -681,7 +681,7 @@ vi /edx/app/edxapp/lms.env.json
 ```
 
 如下图所示:
-![open-edx-sp-conf-0]()
+![open-edx-sp-conf-0](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-0.png)
 
 ### 3.3.2 配置Open edX作为SP
  首先生成credential key pair（即生成公钥和私钥）以保证SP和IDP之间数据传输的安全性，然后利用credential key pair生成SP端的原数据。
@@ -695,11 +695,11 @@ openssl req -new -x509 -days 3652 -nodes -out saml.crt -keyout saml.key
 
 如下图所示：
 
-![open-edx-sp-conf-1]()
+![open-edx-sp-conf-1](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-1.png)
 
 生成结果如下：生成公钥saml.crt和私钥saml.key
 
-![open-edx-sp-conf-2]()
+![open-edx-sp-conf-2](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-2.png)
 
 #### 3.3.2.2 把生成的公钥和私钥添加到LMS配置文件中
 （1）打开lms.auth.json文件
@@ -715,17 +715,17 @@ vi /edx/app/edxapp/lms.auth.json
  
  saml.crt文件内容如下图：
  
- ![open-edx-sp-conf-3]()
+ ![open-edx-sp-conf-3](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-3.png)
  
   lms.auth.json加入公钥私钥内容后如下：
   
-   ![open-edx-sp-conf-4]()
+   ![open-edx-sp-conf-4](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-4.png)
    
 （3）把saml.key文件的内容复制到SOCIAL_AUTH_SAML_SP_PRIVATE_KEY属性中。
 
   saml.key内容如下。也是只复制中间的内容（内容去掉开头和结尾的注释，内容去掉换行。使之为一个单行的字符串）
    
-   ![open-edx-sp-conf-5]()
+   ![open-edx-sp-conf-5](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-5.png)
    
 #### 3.3.2.3 配置open edx作为SP，生成原数据
 
@@ -735,17 +735,17 @@ URL为http://{your_URL}/admin ，如这里的是:http://cherry.os.cs.tsinghua.ed
 
 界面如下图：输入有管理员权限的用户名密码
 
-   ![open-edx-sp-conf-6]()
+   ![open-edx-sp-conf-6](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-6.png)
    
  登录成功后，看到如下的界面：
  
- ![open-edx-sp-conf-7]()
+ ![open-edx-sp-conf-7](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-7.png)
  
 **（2）在Third_Party_Auth下面的SAML Configuration 中点击Add.**
 
 如下图：
 
- ![open-edx-sp-conf-8]()
+ ![open-edx-sp-conf-8](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-8.png)
  
 **（3）选中Enabled，输入下面的信息：**
     
@@ -785,13 +785,13 @@ URL为http://{your_URL}/admin ，如这里的是:http://cherry.os.cs.tsinghua.ed
 ```
 点右下角的保存按钮,如下图所示：
 
- ![open-edx-sp-conf-9]()
+ ![open-edx-sp-conf-9](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-9.png)
  
-  ![open-edx-sp-conf-10]()
+  ![open-edx-sp-conf-10](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-10.png)
   
 保存后结果如下图:
  
-  ![open-edx-sp-conf-11]()
+  ![open-edx-sp-conf-11](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-11.png)
 
 **（4）在 {your LMS URL}/auth/saml/metadata.xml 中可以看到生成的SP端原数据**
 
@@ -799,7 +799,7 @@ URL为http://{your_URL}/admin ，如这里的是:http://cherry.os.cs.tsinghua.ed
 
 如下图所示：
 
- ![open-edx-sp-conf-12]()
+ ![open-edx-sp-conf-12](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-12.png)
  
 原数据的内容在IdP配置的时候会用到。
 
@@ -848,7 +848,7 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 
 如下图：
  
-  ![open-edx-sp-conf-12]()
+  ![open-edx-sp-conf-13](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-13.png)
   
  (3) 把IdP原数据（位于IdP机器中的/opt/shibboleth-idp/metadata/目录下，一般为idp-metadata.xml文件），保存到一个可以用URL获得的地方。
  
@@ -864,7 +864,7 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 
  如下图：
  
-   ![open-edx-sp-conf-13]()
+   ![open-edx-sp-conf-14](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-14.png)
    
  **(3)输入下面的信息：**
  
@@ -885,22 +885,22 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 
 右下角：点Save保存。
 
- ![open-edx-sp-conf-14]()
+ ![open-edx-sp-conf-15](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-15.png)
   
- ![open-edx-sp-conf-15]()
+ ![open-edx-sp-conf-16](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-16.png)
     
 保存后结果如下图所示：
 
- ![open-edx-sp-conf-16]()
+ ![open-edx-sp-conf-17](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-17.png)
   
- ![open-edx-sp-conf-17]()
+ ![open-edx-sp-conf-18](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-18.png)
  
     
 ### 3.3.4 检测是否配置成功
  
  (1). 在管理界面（http://cherry.os.cs.tsinghua.edu.cn/admin），进入到Third_Party_Auth下的Provider Configuration(SAML IdPs)界面。查看Metadata Ready是否是绿色的勾，如果是测说明能够正确获取IdP原数据。
  
-  ![open-edx-sp-conf-18]()
+  ![open-edx-sp-conf-18](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-18.png)
  
  如果不是绿色的勾，先重启edx服务，然后刷新页面。 如果还不行，请检查Metadata source是否正确，通过这个URL是不是能获取idp原数据。
 
@@ -908,34 +908,34 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 
 如下图：
 
-  ![open-edx-sp-conf-19]()
+  ![open-edx-sp-conf-19](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-19.png)
   
   结果如下：（Is valid打上绿色勾，说明能正确获取IdP端的原数据
   
-    ![open-edx-sp-conf-20]()
+    ![open-edx-sp-conf-20](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-20.png)
     
  (3) 登录
  
 在open edx首页，点sign in 
 
   
- ![open-edx-sp-conf-21]()
+ ![open-edx-sp-conf-21](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-21.png)
 
 点击Use my Institution/Campus credentials
 
     
- ![open-edx-sp-conf-22]()
+ ![open-edx-sp-conf-22](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-22.png)
  
  点击Tsinghua_OS(你设置的名称)
  
-  ![open-edx-sp-conf-23]()
+  ![open-edx-sp-conf-23](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-23.png)
   
   跳到IdP页面，输入用户名密码进行登录。（用户名密码是在open ldap保己经创建好用户的）
   
-    ![open-edx-sp-conf-24]()
+    ![open-edx-sp-conf-24](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-24.png)
     
  如果是第一次登录，账号没有在edx注册过，那么会跳到下面的页面。以后登录会直接跳到edx页面，不会再出现下面的页面
  
 登录成功，返回到edx页面。
 
-  ![open-edx-sp-conf-25]()
+  ![open-edx-sp-conf-25](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-25.png)
