@@ -277,7 +277,7 @@ eduPersonPrincipalName:yannizhang8800@163.com
 
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/openldap-1.png)
 
-## 3.2 安装IdP
+## 3.2 布署IdP
 ### 3.2.1 环境
 IDP版本：2.4.4
 
@@ -408,9 +408,9 @@ sudo chown -R tomcat6:tomcat6 /opt/shibboleth-idp
 [官方的问题解答列表](https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPTroubleshootingCommonErrors#NativeSPTroubleshootingCommonErrors-Unabletolocatemetadataforidentityprovider(https://identities.supervillain.edu/idp/shibboleth).)
 
 
-## 3.2 配置IdP与OpenLdap连接
+### 3.2.3 配置IdP与OpenLdap连接
 
-### 3.2.1 在配置前,请使用test_ldap.py保证LDAP正常工作。
+#### 3.2.3.1 在配置前,请使用test_ldap.py保证LDAP正常工作。
 
 在IdP机器上运行test_ldap.py脚本。test_ldap.py脚本内容如下：
 
@@ -451,7 +451,7 @@ while 1:
 
 如果能正常获得上图所示的用户信息，则说明ldap正常工作，可以进行配置ldap验证了，通过以下步骤实现：
 
-### 3.2.2 属性定义attribute-resolver.xml
+#### 3.2.3.2 属性定义attribute-resolver.xml
 
 输入下面的命令：
 
@@ -513,7 +513,7 @@ while 1:
 + 第五行 principalCredential 改为登录ldap时的密码（如3.1.5的图片所示的Password）
 
 
-### 3.2.3 更改attribute-filter.xml
+#### 3.2.3.3 更改attribute-filter.xml
 
 输入下面的命令:
 
@@ -543,7 +543,7 @@ while 1:
 ![picture-idp-ldap-conf-2](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-ldap-conf-2.png)
 
 
-### 3.2.4 更改handler.xml
+#### 3.2.3.4 更改handler.xml
 
 输入下面的命令：
 
@@ -578,7 +578,7 @@ while 1:
 
 ![idp-ldap-conf-3](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-ldap-conf-3.png)
 
-### 3.2.5 更改login.config
+#### 3.2.3.5 更改login.config
 
 输入下面的命令：
 
@@ -598,7 +598,7 @@ edu.vt.middleware.ldap.jaas.LdapLoginModule required
 
 ![idp-ldap-conf-5](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-ldap-conf-5.png)
 
-### 3.2.6 测试idp 与ldap 连接是否正常
+#### 3.2.3.6 测试idp 与ldap 连接是否正常
 
 运行aacli.sh 脚本可测试两者连接是否正常
 
@@ -612,3 +612,49 @@ export JAVA_HOME=/usr/lib/jvm/java-7-oracle
 ```
 可以看到下图所示的结果，即ldap返回的Tom用户的有关属性（uid,cn,eppn,mail） 以及属性的值(Tom,Tom,yannizhang8800@163.com,yannizhang8800@163.com),如果能返回这些信息，说明idp与ldap能正常连接。
 ![idp-conf-6](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-conf-6.png)
+
+### 3.3 配置IdP与SP连接
+  3.3要在完成SP端的原数据生成之后才可以做，现在可以先跳过，等生成了sp-metadata.xml之后再回来做。
+
+  在IdP端对与SP连接的配置只需两步：
+  
+#### 3.3.1 把SP端的原数据拷贝到IdP端的/opt/shibboleth-idp/metadata目录下
+
+在SP端运行下面的命令：
+```
+scp sp-metadata.xml username@idp-ip:/opt/shibboleth-idp/metadata
+
+```
+然后到IdP端运行下面的命令：
+```
+chown tomcat7:tomcat7 sp-metadata.xml
+```
+把上述代码中的username 换成IdP机器的用户名，idp-ip换成IdP机器的IP地址。
+
+如果直接运行上面代码没有权限直接持贝，则可采取下面的方法 ：
+
+在SP机器输入面的命令：
+```
+scp sp-metadata.xml zyni@192.168.1.137:/home/zyni
+```
+再到IdP机器输入下面的命令：
+```
+cp /home/zyni/sp-metadata.xml /opt/shibboleth-idp/metadata
+chown tomcat7:tomcat7 sp-metadata.xml
+```
+#### 3.3.2 修改relying-party.xml
+
+在IdP端输入下面的命令：
+```
+vi /opt/shibboleth-idp/conf/relying-party.xml
+```
+在"Metadata Configuration"部分，加入下面的代码：
+```
+<metadata:MetadataProvider xsi:type="FilesystemMetadataProvider"
+    xmlns="urn:mace:shibboleth:2.0:metadata" id="SPMETADATA"
+    metadataFile="/opt/shibboleth-idp/metadata/sp-metadata.xml" />
+```
+如下图所示：
+![idp-sp-metadata-config]()
+
+## 3.4 布署Gitlab端的SP
