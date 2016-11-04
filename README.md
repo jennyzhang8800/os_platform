@@ -605,6 +605,7 @@ edu.vt.middleware.ldap.jaas.LdapLoginModule required
 输入下面的命令：
 
 ```
+cd /opt/shibboleth-idp/bin
 export JAVA_HOME=/usr/lib/jvm/java-7-oracle
 ./aacli.sh --configDir=/opt/shibboleth-idp/conf/ --principal=Tom
 
