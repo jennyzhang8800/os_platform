@@ -655,6 +655,285 @@ vi /opt/shibboleth-idp/conf/relying-party.xml
     metadataFile="/opt/shibboleth-idp/metadata/sp-metadata.xml" />
 ```
 如下图所示：
-![idp-sp-metadata-config]()
+![idp-sp-metadata-config](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-sp-metadta-config.png)
 
-## 3.4 布署Gitlab端的SP
+## 3.3 布署Open edX端的SP
+
+下面是在Open edX机器上进行的配置，参考的是[官方配置文档](http://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/index.html) ,通过以下步骤实现：
+### 3.3.1 打开第三方认证特性
+
+由于默认情况下open edx的第三方认证是不可用的，因此首先需要打开第三方认证特性。通过下面的操作实现：
+
+(1)输入下面的命令：
+```
+sudo su  
+vi /edx/app/edxapp/lms.env.json 
+```
+(2)在lms.env.json文件中，把
+"ENABLE_COMBINED_LOGIN_REGISTRATION" 和 "ENABLE_THIRD_PARTY_AUTH"
+这两个属性的值都改为true，保存修改。
+```
+"FEATURES" : {
+    ...
+    "ENABLE_COMBINED_LOGIN_REGISTRATION": true,
+    "ENABLE_THIRD_PARTY_AUTH": true
+}
+```
+
+如下图所示:
+![open-edx-sp-conf-0]()
+
+### 3.3.2 配置Open edX作为SP
+ 首先生成credential key pair（即生成公钥和私钥）以保证SP和IDP之间数据传输的安全性，然后利用credential key pair生成SP端的原数据。
+ 
+#### 3.3.2.1 生成公钥和私钥
+（1）输入下面的命令：
+```
+openssl req -new -x509 -days 3652 -nodes -out saml.crt -keyout saml.key
+```
+(2)   输入要求填写的信息(Country Name, state or Province Name,等)，就会在当前路径下生成公钥saml.crt和私钥saml.key
+
+如下图所示：
+
+![open-edx-sp-conf-1]()
+
+生成结果如下：生成公钥saml.crt和私钥saml.key
+
+![open-edx-sp-conf-2]()
+
+#### 3.3.2.2 把生成的公钥和私钥添加到LMS配置文件中
+（1）打开lms.auth.json文件
+
+输入下面的命令：
+```
+vi /edx/app/edxapp/lms.auth.json  
+```
+
+（2）把saml.crt文件的内容复制到SOCIAL_AUTH_SAML_SP_PUBLIC_CERT属性中。
+
+ **注意：** saml.crt文件的内容去掉开头和结尾的注释，内容去掉换行。使之为一个单行的字符串添加入SOCIAL_AUTH_SAML_SP_PUBLIC_CERT属性中。
+ 
+ saml.crt文件内容如下图：
+ 
+ ![open-edx-sp-conf-3]()
+ 
+  lms.auth.json加入公钥私钥内容后如下：
+  
+   ![open-edx-sp-conf-4]()
+   
+（3）把saml.key文件的内容复制到SOCIAL_AUTH_SAML_SP_PRIVATE_KEY属性中。
+
+  saml.key内容如下。也是只复制中间的内容（内容去掉开头和结尾的注释，内容去掉换行。使之为一个单行的字符串）
+   
+   ![open-edx-sp-conf-5]()
+   
+ #### 3.3.2.3 配置open edx作为SP，生成原数据
+**（1）登录到Django 管理界面。**
+
+URL为http://{your_URL}/admin ，如这里的是:http://cherry.os.cs.tsinghua.edu.cn
+
+界面如下图：输入有管理员权限的用户名密码
+
+   ![open-edx-sp-conf-6]()
+   
+ 登录成功后，看到如下的界面：
+ 
+ ![open-edx-sp-conf-7]()
+ 
+**（2）在Third_Party_Auth下面的SAML Configuration 中点击Add.**
+
+如下图：
+
+ ![open-edx-sp-conf-8]()
+ 
+** （3）选中Enabled，输入下面的信息：**
+    
++ **Entity ID**: 这会作为生成的原数据中的entity_id。一般输入服务器名，如： http://saml.mydomain.com/. （我这里的是http://cherry.os.cs.tsinghua.edu.cn）
+
++ **Site**: 指定作为SP的站点
+
++ **Organization Info**: 组织信息，如下，把下面改为你的edx信息
+```
+{
+   "en-US": {
+       "url": "http://www.mydomain.com",
+       "displayname": "{Complete Name}",
+       "name": "{Short Name}"
+   }
+}
+```
+改为：
+```
+{
+   "en-US": {
+       "url": "http://cherry.os.cs.tsinghua.edu.cn",
+       "displayname": "Tsinghua University",
+       "name": "tsinghua"
+   }
+}
+```
+
++ **Other config str**: 定义IdP原数据文件的安全设置，保持默认即可。如下：
+```
+{
+   "SECURITY_CONFIG": {
+     "signMetadata": false,
+     "metadataCacheDuration": ""
+   }
+}
+```
+点右下角的保存按钮,如下图所示：
+
+ ![open-edx-sp-conf-9]()
+ 
+  ![open-edx-sp-conf-10]()
+  
+保存后结果如下图:
+ 
+  ![open-edx-sp-conf-11]()
+
+**（4）在 {your LMS URL}/auth/saml/metadata.xml 中可以看到生成的SP端原数据**
+
+如我这里的是：http://cherry.os.cs.tsinghua.edu.cn/auth/saml/metadata.xml
+
+如下图所示：
+
+ ![open-edx-sp-conf-12]()
+ 
+原数据的内容在IdP配置的时候会用到。
+
+如果上面的步骤中没有生成成功原数据，在3.3.2.2做完后先重启edx服务，然后再进行3.3.2.3
+
+重启edx服务的命令如下：
+
+```
+sudo /edx/bin/supervisorctl restart edxapp:   
+sudo /edx/bin/supervisorctl restart edxapp_worker:   
+```
+#### 3.3.2.4 确保SAML 认证后端己加载
+
+如果你没有改过/edx/app/edxapp/lms.env.json文件的设置（向它添加过THIRD_PARTY_AUTH_BACKENDS设置），这一步可以什么都不过，跳过就行。
+
+### 3.3.3 使SP和IdP结合
+
+#### 3.3.3.1交换原数据
+
+(1) 先把3.3.2.3中生成的SP端原数据，保存到IdP端
+
+
+我这里把http://cherry.os.cs.tsinghua.edu.cn/auth/saml/metadata.xml 的内容保存为单独的文件，命名为edx-metadata.xml
+
+
+然后把edx-metadata.xml 拷贝到IdP机器中的/opt/shibboleth-idp/metadata/目录下。
+
+
+(2)更改IdP配置文件relying-party.xml
+
+在IdP机器输入下面的命令：
+
+```
+vi /opt/shibboleth-idp/conf/relying-party.xml   
+```
+在Metadata Configuration的部分加入面的内容：
+```
+<metadata:MetadataProvider xsi:type="FilesystemMetadataProvider"
+                xmlns="urn:mace:shibboleth:2.0:metadata" id="SPMETADATA-EDX"
+                metadataFile="/opt/shibboleth-idp/metadata/edx-metadata.xml" />
+```
+
+（你也可以不上传原数据文件到IdP机器，直接在把上面的 metadataFile="/opt/shibboleth-idp/metadata/edx-metadata.xml" 改为
+metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
+)
+
+如下图：
+ 
+  ![open-edx-sp-conf-12]()
+  
+ (3) 把IdP原数据（位于IdP机器中的/opt/shibboleth-idp/metadata/目录下，一般为idp-metadata.xml文件），保存到一个可以用URL获得的地方。
+ 
+我这里把IdP原数据保存到gitlab仓库中,链接为：https://raw.githubusercontent.com/jennyzhang8800/os_platform/master/idp-metadata.xml
+
+#### 3.3.3.2 添加并使SAML IdP可用
+
+**（1）登录到Django 管理界面。**
+
+ 管理界面的URL，如http://cherry.os.cs.tsinghua.edu.cn/admin
+ 
+**（2）在Third_Party_Auth下的Provider Configuration(SAML IdPs) 点击Add**
+
+ 如下图：
+ 
+   ![open-edx-sp-conf-13]()
+   
+ **(3)输入下面的信息：**
+ 
++ **Icon class**: 这里输入fa-university.
++ **Name** 在登录页面出现的IdP名。如：Tsinghua_OS.
++ **Secondary**: 选中这一项则在登录时会有一个中间页列表出现。这里选中
++ **Backend name**: 默认为tpa-saml,不用改
++ **Site**: 站点名，输入edx的站点名。如：cherry.cs.tsinghua.edu.cn
++ **IdP slug**: 唯一识别这个IdP的名称。不含空格，可以作为CSS类名。如：shibboleth
++ **Entity ID**: 与IdP原数据（idp-metadata.xml）中的entity_id值保持一致（一定要一致！）。如：http://os.cs.tsinghua.edu.cn/idp/shibboleth
++ **Metadata source**: IdP原数据的URL。如：在3.1.2中我们己经有了：https://raw.githubusercontent.com/jennyzhang8800/os_platform/master/idp-metadata.xml
+
+把Ship email verification 和Visible勾上。（可选）  
+
+其他项可以不用填
+
+在右上角：Enabled选中
+
+右下角：点Save保存。
+
+  ![open-edx-sp-conf-14]()
+  
+    ![open-edx-sp-conf-15]()
+    
+保存后结果如下图所示：
+
+  ![open-edx-sp-conf-16]()
+  
+    ![open-edx-sp-conf-17]()
+    
+ ### 3.3.4 检测是否配置成功
+ 
+ (1). 在管理界面（http://cherry.os.cs.tsinghua.edu.cn/admin），进入到Third_Party_Auth下的Provider Configuration(SAML IdPs)界面。查看Metadata Ready是否是绿色的勾，如果是测说明能够正确获取IdP原数据。
+ 
+  ![open-edx-sp-conf-18]()
+ 
+ 如果不是绿色的勾，先重启edx服务，然后刷新页面。 如果还不行，请检查Metadata source是否正确，通过这个URL是不是能获取idp原数据。
+
+(2).检查是否能正确获取IdP端原数据的另一个方法，点击Third_Parth_Auth下的SAML Provider Data选项，会获取一次原数据，如果能成功获取，Is valid会打上绿色的勾。
+
+如下图：
+
+  ![open-edx-sp-conf-19]()
+  
+  结果如下：（Is valid打上绿色勾，说明能正确获取IdP端的原数据
+  
+    ![open-edx-sp-conf-20]()
+    
+ (3) 登录
+ 
+在open edx首页，点sign in 
+
+  
+ ![open-edx-sp-conf-21]()
+
+点击Use my Institution/Campus credentials
+
+    
+ ![open-edx-sp-conf-22]()
+ 
+ 点击Tsinghua_OS(你设置的名称)
+ 
+  ![open-edx-sp-conf-23]()
+  
+  跳到IdP页面，输入用户名密码进行登录。（用户名密码是在open ldap保己经创建好用户的）
+  
+    ![open-edx-sp-conf-24]()
+    
+ 如果是第一次登录，账号没有在edx注册过，那么会跳到下面的页面。以后登录会直接跳到edx页面，不会再出现下面的页面
+ 
+登录成功，返回到edx页面。
+
+  ![open-edx-sp-conf-25]()
