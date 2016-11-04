@@ -935,7 +935,7 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 ![open-edx-sp-conf-24](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-24.png)
     
  如果是第一次登录，账号没有在edx注册过，那么会跳到下面的页面。以后登录会直接跳到edx页面，不会再出现下面的页面
- ![open-edx-sp-conf-26](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-26.png)
+ ![open-edx-sp-conf-26](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-conf-26.png)
  
 登录成功，返回到edx页面。
 
