@@ -9,7 +9,8 @@
 * [shibboleth](https://github.com/jennyzhang8800/os_platform#3shibboleth)
  + [部署LDAP服务器](https://github.com/jennyzhang8800/os_platform#31部署ldap服务器)
  + [部署IdP](https://github.com/jennyzhang8800/os_platform#32部署idp)
-
+ + 在Open edX配置SP
+ + 在Gitlab配置SP
 
 <hr/>
 
@@ -940,3 +941,6 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 登录成功，返回到edx页面。
 
 ![open-edx-sp-conf-25](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-25.png)
+
+## 3.4 在Gitlab配置SP
+
