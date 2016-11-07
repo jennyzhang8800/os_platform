@@ -4,17 +4,17 @@
 
 **目录**
 
-* [gitlab的安装](https://github.com/jennyzhang8800/os_platform#1gitlab的安装)
-* [Open edX的安装](https://github.com/jennyzhang8800/os_platform#2open-edx的安装)
-* [shibboleth](https://github.com/jennyzhang8800/os_platform#3shibboleth)
- + [部署LDAP服务器](https://github.com/jennyzhang8800/os_platform#31部署ldap服务器)
- + [部署IdP](#1)
- + 在Open edX配置SP
- + 在Gitlab配置SP
+* [gitlab的安装](#gitlab)
+* [Open edX的安装](#openEdx)
+* [shibboleth](#Shibboleth)
+ + [部署LDAP服务器](#LDAP)
+ + [部署IdP](#IdP)
+ + Open edX配置SP(#SP-edx)
+ + Gitlab配置SP(#SP-gitlab)
 
 <hr/>
 
-# 1.gitlab的安装
+<h1 id="gitlab"> 1.gitlab的安装</h1>
 ## 1.1环境
 
     gitlab版本：GitLab CE Omnibus 
@@ -118,7 +118,7 @@ sudo gitlab-ctl reconfigure
   在浏览器中输入：http://localhost 如果进入到登录页面，则说明gitlab己正确安装。
   首次访问gitlab,会直接重定向到设置密码屏幕，初始用户名是root。
   
-# 2.Open edX的安装
+<h1 id="openEdx"> 2.Open edX的安装</h1>
 ## 2.1 环境
 
 Open edX版本：Open edX Fullstack
@@ -216,10 +216,11 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 
 
 ---
+  
+<h1 id="Shibboleth"> 3.Shibboleth</h1>
 
-# 3.Shibboleth
 
-## 3.1 部署LDAP服务器.
+<h2 id="LDAP"> 3.1 部署LDAP服务器.</h2>
 
 
 ### 3.1.1 安装OpenLDAP及可视化工具
@@ -278,7 +279,8 @@ eduPersonPrincipalName:yannizhang8800@163.com
 
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/openldap-1.png)
 
-## 3.2 布署IdP
+<h2 id="IdP"> 3.2 布署IdP</h2>
+
 ### 3.2.1 环境
 IDP版本：2.4.4
 
@@ -616,7 +618,7 @@ export JAVA_HOME=/usr/lib/jvm/java-7-oracle
 
 
 
-## 3.3 布署Open edX端的SP
+<h2 id="SP-edx"> 3.3 布署Open edX端的SP</h2>
 
 下面是在Open edX机器上进行的配置，参考的是[官方配置文档](http://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/index.html) ,通过以下步骤实现：
 ### 3.3.1 打开第三方认证特性
@@ -900,7 +902,7 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 
 ![open-edx-sp-conf-25](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-25.png)
 
-## 3.4 配置Gitlab端的SP
+<h2 id="SP-gitlab"> 3.4 配置Gitlab端的SP</h2>
 ### 3.4.1 安装及配置SP
 #### 3.4.1.1 安装Apache上的shib模块
 输入下面的命令：
