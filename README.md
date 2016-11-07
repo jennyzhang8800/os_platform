@@ -1026,7 +1026,7 @@ vi /opt/shibboleth-idp/conf/relying-party.xml
 如下图所示：
 ![idp-sp-metadata-config](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-sp-metadta-config.png)
 
-<h2 id="1">跳转到的地方</h2>
+
 **(4)配置属性映射文件attribute-map.xml**
 
 输入下面的命令：
