@@ -315,6 +315,8 @@ IDP版本：2.4.4
 
 ### 3.2.2 安装IdP
 
+> 涉及到的配置文件备份：[点此查看](https://github.com/jennyzhang8800/os_platform/tree/master/backup/shibboleth-idp/idp)
+
 #### 3.2.2.1安装oracle jdk
 依次输入下面的4条命令：
 ```
@@ -442,7 +444,7 @@ sudo chown -R tomcat6:tomcat6 /opt/shibboleth-idp
 
 #### 3.2.3.1 在配置前,请使用test_ldap.py保证LDAP正常工作。
 
-在IdP机器上运行test_ldap.py脚本。test_ldap.py脚本内容如下：
+在IdP机器上运行[test_ldap.py](https://github.com/jennyzhang8800/os_platform/blob/master/backup/shibboleth-idp/idp/test_ldap.py)脚本。test_ldap.py脚本内容如下：
 
 ```
 import ldap
@@ -646,6 +648,8 @@ export JAVA_HOME=/usr/lib/jvm/java-7-oracle
 
 
 <h2 id="SP-edx"> 3.3 布署Open edX端的SP</h2>
+
+> 该部份涉及到的配置文件备份：[点此查看](https://github.com/jennyzhang8800/os_platform/tree/master/backup/edx-backup)
 
 下面是在Open edX机器上进行的配置，参考的是[官方配置文档](http://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/index.html) ,通过以下步骤实现：
 ### 3.3.1 打开第三方认证特性
@@ -930,6 +934,9 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 ![open-edx-sp-conf-25](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-25.png)
 
 <h2 id="SP-gitlab"> 3.4 布署Gitlab端的SP</h2>
+
+> 此部分涉及到的配置文件备份：[点此查看](https://github.com/jennyzhang8800/os_platform/tree/master/backup/gitlab-backup/etc)
+
 ### 3.4.1 安装及配置SP
 #### 3.4.1.1 安装Apache上的shib模块
 输入下面的命令：
