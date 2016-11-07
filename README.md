@@ -943,4 +943,215 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 ![open-edx-sp-conf-25](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-25.png)
 
 ## 3.4 在Gitlab配置SP
+### 3.4.1 安装及配置SP
+#### 3.4.1.1 安装Apache上的shib模块
+输入下面的命令：
+```
+sudo apt-get install libapache2-mod-shib2
+a2enmod shib2
+```
+访问/Shibboleth.sso/Status, 若能显示信息,则一切正常
 
+#### 3.4.1.2 配置SP
+要修改的配置文件都位于/etc/shibboleth目录下
+**(1)修改shibboleth2.xml**
+
+输入下面的命令：
+```
+sudo su
+vi /etc/shibboleth/shibboleth2.xml
+```
++ 修改sp的entityID为你SP的域名
+```
+<ApplicationDefaults entityID="http://apple.cs.tsinghua.edu.cn"
+                     REMOTE_USER="eppn persistent-id targeted-id">
+```
+将上述代码中的http://apple.cs.tsinghua.edu.cn 改为你的gitlab域名
+
++ 添加 sso
+```<SSO entityID="http://os.cs.tsinghua.edu.cn/idp"
+             discoveryProtocol="SAMLDS" discoveryURL="https://ds.example.org/DS/WAYF">
+          SAML2 SAML1
+</SSO>
+```
+将上述代码中的http://os.cs.tsinghua.edu.cn/idp 改为你的idp域名
+
++ 添加 session initiator
+```
+<SessionInitiator type="Chaining" Location="/Login" isDefault="true" id="Intranet"
+    relayState="cookie" entityID="http://os.cs.tsinghua.edu.cn/idp/shibboleth" forceAuthn="true">
+    <SessionInitiator type="SAML2" acsIndex="1" template="bindingTemplate.html"/>
+    <SessionInitiator type="Shib1" acsIndex="5"/>
+</SessionInitiator>
+```
+
+将上述代码中的http://os.cs.tsinghua.edu.cn/idp 改为你的idp域名
+
+
+### 3.4.2 配置apache(default)
+(1) 将/etc/apache2/sites-available/default 文件用下面的内容替换：
+```
+<VirtualHost *:80>
+  ServerName apple.cs.tsinghua.edu.cn
+  ServerSignature Off
+
+  ProxyPreserveHost On
+
+  # Ensure that encoded slashes are not decoded but left in their encoded state.
+  # http://doc.gitlab.com/ce/api/projects.html#get-single-project
+  AllowEncodedSlashes NoDecode
+
+  <Location />
+    # New authorization commands for apache 2.4 and up
+    # http://httpd.apache.org/docs/2.4/upgrading.html#access
+    Order allow,deny
+    Allow from all
+    ProxyPassReverse http://127.0.0.1:8080/
+    ProxyPassReverse http://apple.cs.tsinghua.edu.cn/
+  </Location>
+
+  <Location /users/auth/shibboleth/callback>
+    AuthType shibboleth
+    ShibRequestSetting requireSession 1
+    ShibUseHeaders On
+    require valid-user
+  </Location>
+
+  Alias /shibboleth-sp /usr/share/shibboleth
+  <Location /shibboleth-sp>
+    Satisfy any
+  </Location>
+
+  <Location /Shibboleth.sso>
+    SetHandler shib
+  </Location>
+  #apache equivalent of nginx try files
+  # http://serverfault.com/questions/290784/what-is-apaches-equivalent-of-nginxs-try-files
+  # http://stackoverflow.com/questions/10954516/apache2-proxypass-for-rails-app-gitlab
+  RewriteEngine on
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} !/Shibboleth.sso
+  RewriteCond %{REQUEST_URI} !/shibboleth-sp
+  RewriteRule .* http://127.0.0.1:8080%{REQUEST_URI} [P,QSA]
+  RequestHeader set X_FORWARDED_PROTO 'http'
+  # needed for downloading attachments
+  DocumentRoot /opt/gitlab/embedded/service/gitlab-rails/public
+
+  #Set up apache error documents, if back end goes down (i.e. 503 error) then a maintenance/deploy page is thrown up.
+  ErrorDocument 404 /404.html
+  ErrorDocument 422 /422.html
+  ErrorDocument 500 /500.html
+  ErrorDocument 503 /deploy.html
+
+  LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b" common_forwarded
+  ErrorLog  /var/log/apache2/gitlab.err.log
+  CustomLog /var/log/apache2/gitlab.acces.log "combined"       
+ 
+	ServerAdmin webmaster@localhost
+
+	DocumentRoot /var/www
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    Alias /doc/ "/usr/share/doc/"
+    <Directory "/usr/share/doc/">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride None
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.0/255.0.0.0 ::1/128
+    </Directory>
+
+</VirtualHost>
+
+```
+
+把上述代码中的：
+```
+ ServerName apple.cs.tsinghua.edu.cn
+ ProxyPassReverse http://apple.cs.tsinghua.edu.cn/
+```
+这两个地方的apple.cs.tsinghua.edu.cn 改为你的gitlab域名。
+
+改完之后保存
+
+(2)激活使用的apache模块
+
+输入下面的命令：
+```
+a2enmod proxy
+a2enmod rewrite
+a2enmod headers
+a2enmod proxy_http
+```
+
+(3)重启apache服务
+
+输入下面的命令：
+```
+sudo service apache2 restart
+```
+
+### 3.4.3 配置Gitlab与SP连接(gitlab.rb)
+输入下面的命令：
+```
+vi /etc/gitlab/gitlab.rb
+```
+修改如下配置：
+```
+external_url 'https://apple.cs.tsinghua.edu.cn'
+
+
+# disable Nginx
+nginx['enable'] = false
+
+    gitlab_rails['omniauth_allow_single_sign_on'] = true
+    gitlab_rails['omniauth_block_auto_created_users'] = false
+    gitlab_rails['omniauth_enabled'] = true
+    gitlab_rails['omniauth_providers'] = [
+      {
+            "name" => 'shibboleth',
+            "args" => {
+            "shib_session_id_field" => "HTTP_SHIB_SESSION_ID",
+            "shib_application_id_field" => "HTTP_SHIB_APPLICATION_ID",
+            "uid_field" => 'HTTP_EPPN',
+            "name_field" => 'HTTP_CN',
+            "info_fields" => { "email" => 'HTTP_MAIL'}
+            }
+      }
+    ]
+```
+
+上述代码主要是三个地方的改动：
++ 把external_url 改为你的gitlab外部访问域名
++ 禁用gitlab默认的nginx代理服务器
++ 启用sso
+
+更改后保存，然后输入下面的命令使配置生效：
+```
+sudo gitlab-ctl reconfigure
+```
