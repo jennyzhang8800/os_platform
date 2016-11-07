@@ -1,0 +1,11 @@
+dn: uid=Jerry,ou=Users,dc=cscw
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: eduPerson
+uid: Jerry
+sn: Jerry
+givenName:Jerry
+cn:Jerry
+mail:1779820640@qq.com
+userPassword: 123456
+eduPersonPrincipalName:1779820640@qq.com

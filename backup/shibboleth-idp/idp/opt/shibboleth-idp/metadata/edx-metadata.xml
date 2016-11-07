@@ -1,0 +1,39 @@
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" cacheDuration="PT604800S" entityID="http://cherry.cs.tsinghua.edu.cn/">
+<md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+<md:KeyDescriptor xmlns:ds="http://www.w3.org/2000/09/xmldsig#" use="signing">
+<ds:KeyInfo>
+<ds:X509Data>
+<ds:X509Certificate>
+MIIDCDCCAnGgAwIBAgIJAKo7sW1iFfCPMA0GCSqGSIb3DQEBBQUAMIGcMQswCQYDVQQGEwJDTjEQMA4GA1UECAwHQmVpamluZzEQMA4GA1UEBwwHQmVpamluZzERMA8GA1UECgwIVHNpbmdodWExCzAJBgNVBAsMAkNTMSIwIAYDVQQDDBljaGVycnkuY3MudHNpbmdodWEuZWR1LmNuMSUwIwYJKoZIhvcNAQkBFhZqZW5ueXpoYW5nODgwMEAxNjMuY29tMB4XDTE2MTAyNjA1NTE1NloXDTI2MTAyNjA1NTE1NlowgZwxCzAJBgNVBAYTAkNOMRAwDgYDVQQIDAdCZWlqaW5nMRAwDgYDVQQHDAdCZWlqaW5nMREwDwYDVQQKDAhUc2luZ2h1YTELMAkGA1UECwwCQ1MxIjAgBgNVBAMMGWNoZXJyeS5jcy50c2luZ2h1YS5lZHUuY24xJTAjBgkqhkiG9w0BCQEWFmplbm55emhhbmc4ODAwQDE2My5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAN0ayuvEWDjC4l/QbKt36XzwReXl7su81YN0ldllUXJhHoATIZQ5+6/WFhCPphEus97lDFsWDvkTC8NDCKL12k9AMmz+6o419vF148xu75AU64FaAZdxYKastNr06MTmMz7kcIgJxRZYESmFUGkaOek8lZaYsslA0+cBKXu8f/7XAgMBAAGjUDBOMB0GA1UdDgQWBBToRdUFVl//3HZD4CCjTHQnm2atbjAfBgNVHSMEGDAWgBToRdUFVl//3HZD4CCjTHQnm2atbjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIKpCzWCYPf2YQHyg81HR+XDuLCGX3IL/uju+i/arQQGHIfdi4Ni3na0xAnxJfHi1LtSIZUxmPL4wlizX4R6HvWyw0UJc/BFi5B02ZJV7B7R00v3Da1CkwKRNXP3FfV656hyBjcU2PnWVHKPrICPMKZxyizUlTejOcOoW72TM8gK
+</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+</md:KeyDescriptor>
+<md:KeyDescriptor xmlns:ds="http://www.w3.org/2000/09/xmldsig#" use="encryption">
+<ds:KeyInfo>
+<ds:X509Data>
+<ds:X509Certificate>
+MIIDCDCCAnGgAwIBAgIJAKo7sW1iFfCPMA0GCSqGSIb3DQEBBQUAMIGcMQswCQYDVQQGEwJDTjEQMA4GA1UECAwHQmVpamluZzEQMA4GA1UEBwwHQmVpamluZzERMA8GA1UECgwIVHNpbmdodWExCzAJBgNVBAsMAkNTMSIwIAYDVQQDDBljaGVycnkuY3MudHNpbmdodWEuZWR1LmNuMSUwIwYJKoZIhvcNAQkBFhZqZW5ueXpoYW5nODgwMEAxNjMuY29tMB4XDTE2MTAyNjA1NTE1NloXDTI2MTAyNjA1NTE1NlowgZwxCzAJBgNVBAYTAkNOMRAwDgYDVQQIDAdCZWlqaW5nMRAwDgYDVQQHDAdCZWlqaW5nMREwDwYDVQQKDAhUc2luZ2h1YTELMAkGA1UECwwCQ1MxIjAgBgNVBAMMGWNoZXJyeS5jcy50c2luZ2h1YS5lZHUuY24xJTAjBgkqhkiG9w0BCQEWFmplbm55emhhbmc4ODAwQDE2My5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAN0ayuvEWDjC4l/QbKt36XzwReXl7su81YN0ldllUXJhHoATIZQ5+6/WFhCPphEus97lDFsWDvkTC8NDCKL12k9AMmz+6o419vF148xu75AU64FaAZdxYKastNr06MTmMz7kcIgJxRZYESmFUGkaOek8lZaYsslA0+cBKXu8f/7XAgMBAAGjUDBOMB0GA1UdDgQWBBToRdUFVl//3HZD4CCjTHQnm2atbjAfBgNVHSMEGDAWgBToRdUFVl//3HZD4CCjTHQnm2atbjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIKpCzWCYPf2YQHyg81HR+XDuLCGX3IL/uju+i/arQQGHIfdi4Ni3na0xAnxJfHi1LtSIZUxmPL4wlizX4R6HvWyw0UJc/BFi5B02ZJV7B7R00v3Da1CkwKRNXP3FfV656hyBjcU2PnWVHKPrICPMKZxyizUlTejOcOoW72TM8gK
+</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+</md:KeyDescriptor>
+<md:NameIDFormat>
+urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+</md:NameIDFormat>
+<md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://cherry.cs.tsinghua.edu.cn/auth/complete/tpa-saml/" index="1"/>
+</md:SPSSODescriptor>
+<md:Organization>
+<md:OrganizationName xml:lang="en-US">tsinghua</md:OrganizationName>
+<md:OrganizationDisplayName xml:lang="en-US">Tsinghua University.</md:OrganizationDisplayName>
+<md:OrganizationURL xml:lang="en-US">http://cherry.cs.tsinghua.edu.cn/</md:OrganizationURL>
+</md:Organization>
+<md:ContactPerson contactType="technical">
+<md:GivenName>Your Platform Name Here Support</md:GivenName>
+<md:EmailAddress>technical@example.com</md:EmailAddress>
+</md:ContactPerson>
+<md:ContactPerson contactType="support">
+<md:GivenName>Your Platform Name Here Support</md:GivenName>
+<md:EmailAddress>technical@example.com</md:EmailAddress>
+</md:ContactPerson>
+</md:EntityDescriptor>

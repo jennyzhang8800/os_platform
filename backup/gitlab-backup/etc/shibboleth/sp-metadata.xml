@@ -1,0 +1,34 @@
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="http://apple.cs.tsinghua.edu.cn">
+  <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol urn:oasis:names:tc:SAML:1.1:protocol">
+    <md:KeyDescriptor>
+      <ds:KeyInfo>
+        <ds:X509Data>
+          <ds:X509Certificate>
+MIIDKjCCAhKgAwIBAgIJAPu4AQGCdM2pMA0GCSqGSIb3DQEBBQUAMCwxKjAoBgNV
+BAMTIW9zLmNzLnRzaW5naHVhLmVkdS5jbi9tb29jLWdpdGxhYjAeFw0xNjEwMjUw
+ODM4NDZaFw0yNjEwMjMwODM4NDZaMCwxKjAoBgNVBAMTIW9zLmNzLnRzaW5naHVh
+LmVkdS5jbi9tb29jLWdpdGxhYjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
+ggEBALrKrNPD22haXzlF33eFJdfyfbar/KtDcrDN/AAHNTT74XdNjEpGJCJuW9yc
+wj6cJdx5kMTGdGwIStVAu2uzc+sQVrWkYFYpsiid/fQTLizXl/GI0ojI/zj0s6yC
+RR4ngxK3sOq+yDxh8E6szigBtWjW79Oi0Vxd8udWcPfmk7Vgp73gBJvB3sTKGFKZ
+uTeGK8ToxqNPqf9h5O7Oh0x4/Ixk03HXZRRMN3S2rPsNuhb5vqvQ6qkZRHakWGpz
+exmE8tdEPejsBQt4XnPZVMXsHBmvJksDTxoocN4nQEsP2A2a0Tq4rLq5MyuhthNx
+8/BSA+l8HxFdgKLNmzdRwHL0HkUCAwEAAaNPME0wLAYDVR0RBCUwI4Ihb3MuY3Mu
+dHNpbmdodWEuZWR1LmNuL21vb2MtZ2l0bGFiMB0GA1UdDgQWBBTlrtaLYubXqpVn
+0HPwL6VQ8/FkXTANBgkqhkiG9w0BAQUFAAOCAQEAV7y43r25sqfzhi7rG7sX5lG6
+6R1f45uLtP6sLHJIDf5mCGs03ghYl52qR/5O4MoRvTripdrLHJk1pEkcVepaGaxo
+q+pgYTOfKGlBFCvVZDb5M0I0xPZTjVwbA7Ziff8t28HyOwPjt9nP/W8sp5V5HnyM
+M3oktOpUgy5CZve4z0BJeZ9J8ztLC2+S56MLwLTaqon9MouCWzOyxBDY/yLT9xMH
+tPYciGstKONrTIoNmU4XBpq16ZyH9/S3Hdr79ILgrBe93cOUjsMNbKRU0bO/Vpu5
+e5aYX0UPJ9Ir3JESsiH3lsZdSkac4vtLMfsr0jTXC5p2xieU0mDkZhSHndmkUA==
+          </ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://apple.cs.tsinghua.edu.cn/Shibboleth.sso/SAML2/POST" index="1"/>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign" Location="http://apple.cs.tsinghua.edu.cn/Shibboleth.sso/SAML2/POST-SimpleSign" index="2"/>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS" Location="http://apple.cs.tsinghua.edu.cn/Shibboleth.sso/SAML2/ECP" index="3"/>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:1.0:profiles:browser-post" Location="http://apple.cs.tsinghua.edu.cn/Shibboleth.sso/SAML/POST" index="4"/>
+  </md:SPSSODescriptor>
+</md:EntityDescriptor>
+
