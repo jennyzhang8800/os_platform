@@ -9,8 +9,8 @@
 * [shibboleth](#Shibboleth)
  + [部署LDAP服务器](#LDAP)
  + [部署IdP](#IdP)
- + Open edX配置SP(#SP-edx)
- + Gitlab配置SP(#SP-gitlab)
+ + [Open edX配置SP](#SP-edx)
+ + [Gitlab配置SP](#SP-gitlab)
 
 <hr/>
 
