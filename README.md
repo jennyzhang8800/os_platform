@@ -11,7 +11,7 @@
  + [部署IdP](https://github.com/jennyzhang8800/os_platform#32部署idp)
  + 在Open edX配置SP
  + 在Gitlab配置SP
-
+[点击跳转](#jump)
 <hr/>
 
 # 1.gitlab的安装
@@ -1024,7 +1024,7 @@ vi /opt/shibboleth-idp/conf/relying-party.xml
 如下图所示：
 ![idp-sp-metadata-config](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-sp-metadta-config.png)
 
-
+<span id="jump">跳转到的地方</span>
 **(4)配置属性映射文件attribute-map.xml**
 
 输入下面的命令：
@@ -1040,7 +1040,7 @@ vi /etc/shibboleth/attribute-map.xml
 </Attribute>
 -->
 ```
-添回下面的代码：
+添加下面的代码：
 ```
 <Attribute name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" id="eppn"/>
 <Attribute name="urn:oid:2.5.4.3" id="cn"/>
