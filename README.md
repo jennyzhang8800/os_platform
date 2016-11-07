@@ -942,7 +942,7 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 
 ![open-edx-sp-conf-25](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-25.png)
 
-## 3.4 在Gitlab配置SP
+## 3.4 配置Gitlab端的SP
 ### 3.4.1 安装及配置SP
 #### 3.4.1.1 安装Apache上的shib模块
 输入下面的命令：
@@ -954,6 +954,7 @@ a2enmod shib2
 
 #### 3.4.1.2 配置SP
 要修改的配置文件都位于/etc/shibboleth目录下
+
 **(1)修改shibboleth2.xml**
 
 输入下面的命令：
@@ -969,14 +970,18 @@ vi /etc/shibboleth/shibboleth2.xml
 将上述代码中的http://apple.cs.tsinghua.edu.cn 改为你的gitlab域名
 
 + 添加 sso
-```<SSO entityID="http://os.cs.tsinghua.edu.cn/idp"
+
+```
+<SSO entityID="http://os.cs.tsinghua.edu.cn/idp"
              discoveryProtocol="SAMLDS" discoveryURL="https://ds.example.org/DS/WAYF">
           SAML2 SAML1
 </SSO>
 ```
+
 将上述代码中的http://os.cs.tsinghua.edu.cn/idp 改为你的idp域名
 
 + 添加 session initiator
+
 ```
 <SessionInitiator type="Chaining" Location="/Login" isDefault="true" id="Intranet"
     relayState="cookie" entityID="http://os.cs.tsinghua.edu.cn/idp/shibboleth" forceAuthn="true">
@@ -989,7 +994,9 @@ vi /etc/shibboleth/shibboleth2.xml
 
 
 ### 3.4.2 配置apache(default)
+
 (1) 将/etc/apache2/sites-available/default 文件用下面的内容替换：
+
 ```
 <VirtualHost *:80>
   ServerName apple.cs.tsinghua.edu.cn
@@ -1117,11 +1124,13 @@ sudo service apache2 restart
 ```
 
 ### 3.4.3 配置Gitlab与SP连接(gitlab.rb)
+
 输入下面的命令：
 ```
 vi /etc/gitlab/gitlab.rb
 ```
 修改如下配置：
+
 ```
 external_url 'https://apple.cs.tsinghua.edu.cn'
 
