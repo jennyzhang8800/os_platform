@@ -1239,17 +1239,17 @@ http://apple.cs.tsinghua.edu.cn
 
 可以看到"Sign in with Shibboleth" ,点击“Shibboleth”按钮。
 
-![gitlab-demo-0]()
+![gitlab-demo-0](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-demo-0.png)
 
 
 **(2)跳转到IdP登录页面登录**
 
 当点击了“Shibboleth”按钮之后，会跳转到IdP页面登录，输入openLdap中存在的用户名密码，点击登录
 
-![gitlab-demo-1]()
+![gitlab-demo-1](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-demo-1.png)
 
 **(3)登录成功返回到gitlab**
 
 IdP认证通过后，自动返回到gitlab,此时己登录进入gitlab
 
-![gitlab-demo-2]()
+![gitlab-demo-2](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-demo-2.png)
