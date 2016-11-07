@@ -614,49 +614,7 @@ export JAVA_HOME=/usr/lib/jvm/java-7-oracle
 可以看到下图所示的结果，即ldap返回的Tom用户的有关属性（uid,cn,eppn,mail） 以及属性的值(Tom,Tom,yannizhang8800@163.com,yannizhang8800@163.com),如果能返回这些信息，说明idp与ldap能正常连接。
 ![idp-conf-6](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-conf-6.png)
 
-### 3.3 配置IdP与SP连接
-  3.3要在完成SP端的原数据生成之后才可以做，现在可以先跳过，等生成了sp-metadata.xml之后再回来做。
 
-  在IdP端对与SP连接的配置只需两步：
-  
-#### 3.3.1 把SP端的原数据拷贝到IdP端的/opt/shibboleth-idp/metadata目录下
-
-在SP端运行下面的命令：
-```
-scp sp-metadata.xml username@idp-ip:/opt/shibboleth-idp/metadata
-
-```
-然后到IdP端运行下面的命令：
-```
-chown tomcat7:tomcat7 sp-metadata.xml
-```
-把上述代码中的username 换成IdP机器的用户名，idp-ip换成IdP机器的IP地址。
-
-如果直接运行上面代码没有权限直接持贝，则可采取下面的方法 ：
-
-在SP机器输入面的命令：
-```
-scp sp-metadata.xml zyni@192.168.1.137:/home/zyni
-```
-再到IdP机器输入下面的命令：
-```
-cp /home/zyni/sp-metadata.xml /opt/shibboleth-idp/metadata
-chown tomcat7:tomcat7 sp-metadata.xml
-```
-#### 3.3.2 修改relying-party.xml
-
-在IdP端输入下面的命令：
-```
-vi /opt/shibboleth-idp/conf/relying-party.xml
-```
-在"Metadata Configuration"部分，加入下面的代码：
-```
-<metadata:MetadataProvider xsi:type="FilesystemMetadataProvider"
-    xmlns="urn:mace:shibboleth:2.0:metadata" id="SPMETADATA"
-    metadataFile="/opt/shibboleth-idp/metadata/sp-metadata.xml" />
-```
-如下图所示：
-![idp-sp-metadata-config](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-sp-metadta-config.png)
 
 ## 3.3 布署Open edX端的SP
 
@@ -991,6 +949,111 @@ vi /etc/shibboleth/shibboleth2.xml
 ```
 
 将上述代码中的http://os.cs.tsinghua.edu.cn/idp 改为你的idp域名
+
+
+**(2)生成原数据文件**
+
+通过以下步骤生成原数据文件sp-metadata.xml
+
++ 生成密钥
+
+输入下面的命令：(将第二条命令中的apple.cs.tsinghua.edu.cn换成你的gitlab域名)
+```
+cd /etc/shibboleth
+shib-keygen -h apple.cs.tsinghua.edu.cn
+```
+
++ 利用密钥生成原数据文件 sp-metadata.xml
+
+输入下面的命令：(将命令中的apple.cs.tsinghua.edu.cn换成你的gitlab域名)
+```
+shib-metagen -h apple.cs.tsinghua.edu.cn> /etc/shibboleth/sp-metadata.xml
+```
+
+
+可以看到在/etc/shibboleth目录下生成了SP端的原数据文件sp-metadata.xml
+
+**(3)交换IdP和SP的原数据文件**
+
++ 在SP端修改shibboleth2.xml,在shibboleth2.xml中加入下面的代码：
+```
+<MetadataProvider type="XML" file="idp-metadata.xml"/>
+```
+
++ 在IdP端进行配置与SP连接
+
+在IdP端对与SP连接的配置只需两步：
+  
+第一步：把SP端的原数据拷贝到IdP端的/opt/shibboleth-idp/metadata目录下
+
+在SP端运行下面的命令：（把下面代码中的username 换成IdP机器的用户名，idp-ip换成IdP机器的IP地址。）
+```
+scp sp-metadata.xml username@idp-ip:/opt/shibboleth-idp/metadata
+
+```
+然后到IdP端运行下面的命令：
+```
+chown tomcat7:tomcat7 sp-metadata.xml
+```
+
+
+如果直接运行上面代码没有权限直接持贝，则可采取下面的方法 ：
+
+在SP机器输入面的命令：
+```
+scp sp-metadata.xml zyni@192.168.1.137:/home/zyni
+```
+再到IdP机器输入下面的命令：
+```
+cp /home/zyni/sp-metadata.xml /opt/shibboleth-idp/metadata
+chown tomcat7:tomcat7 sp-metadata.xml
+```
+
+第二步：修改relying-party.xml
+
+在IdP端输入下面的命令：
+```
+vi /opt/shibboleth-idp/conf/relying-party.xml
+```
+在"Metadata Configuration"部分，加入下面的代码：
+```
+<metadata:MetadataProvider xsi:type="FilesystemMetadataProvider"
+    xmlns="urn:mace:shibboleth:2.0:metadata" id="SPMETADATA"
+    metadataFile="/opt/shibboleth-idp/metadata/sp-metadata.xml" />
+```
+如下图所示：
+![idp-sp-metadata-config](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/idp-sp-metadta-config.png)
+
+
+**(4)配置属性映射文件attribute-map.xml**
+
+输入下面的命令：
+```
+vi /etc/shibboleth/attribute-map.xml
+```
+
+注释下面的代码：
+```
+<!--
+<Attribute name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" id="eppn">
+    <AttributeDecoder xsi:type="ScopedAttributeDecoder"/>
+</Attribute>
+-->
+```
+添回下面的代码：
+```
+<Attribute name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" id="eppn"/>
+<Attribute name="urn:oid:2.5.4.3" id="cn"/>
+<Attribute name="urn:oid:0.9.2342.19200300.100.1.3" id="mail"/>
+```
+**(4)修改attribute-policy.xml**
+
+注释下面的代码：
+```
+<afp:AttributeRule attributeID="eppn">
+    <afp:PermitValueRuleReference ref="ScopingRules"/>
+</afp:AttributeRule>
+```
 
 
 ### 3.4.2 配置apache(default)
