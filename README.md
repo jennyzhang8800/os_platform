@@ -9,8 +9,8 @@
 * [shibboleth](#Shibboleth)
  + [部署LDAP服务器](#LDAP)
  + [部署IdP](#IdP)
- + [Open edX配置SP](#SP-edx)
- + [Gitlab配置SP](#SP-gitlab)
+ + [布署Open edX端的SP](#SP-edx)
+ + [布署Gitlabu端的SP](#SP-gitlab)
 
 <hr/>
 
@@ -902,7 +902,7 @@ metadataFile="http://cherry.os.cs.tsinghua.edu.cn/auth/saml.metadata.xml"
 
 ![open-edx-sp-conf-25](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-sp-config-25.png)
 
-<h2 id="SP-gitlab"> 3.4 配置Gitlab端的SP</h2>
+<h2 id="SP-gitlab"> 3.4 布署Gitlab端的SP</h2>
 ### 3.4.1 安装及配置SP
 #### 3.4.1.1 安装Apache上的shib模块
 输入下面的命令：
@@ -1059,6 +1059,7 @@ vi /etc/shibboleth/attribute-map.xml
 
 
 ### 3.4.2 配置apache(default)
+以下内容参考[官方文档](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/integration/shibboleth.md)
 
 (1) 将/etc/apache2/sites-available/default 文件用下面的内容替换：
 
@@ -1229,3 +1230,26 @@ nginx['enable'] = false
 ```
 sudo gitlab-ctl reconfigure
 ```
+
+### 3.4.4 结果演示
+
+**(1)进入gitlab首页，点Shibboleth按钮**
+
+http://apple.cs.tsinghua.edu.cn
+
+可以看到"Sign in with Shibboleth" ,点击“Shibboleth”按钮。
+
+![gitlab-demo-0]()
+
+
+**(2)跳转到IdP登录页面登录**
+
+当点击了“Shibboleth”按钮之后，会跳转到IdP页面登录，输入openLdap中存在的用户名密码，点击登录
+
+![gitlab-demo-1]()
+
+**(3)登录成功返回到gitlab**
+
+IdP认证通过后，自动返回到gitlab,此时己登录进入gitlab
+
+![gitlab-demo-2]()
