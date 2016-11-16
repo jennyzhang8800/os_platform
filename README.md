@@ -1292,3 +1292,6 @@ http://apple.cs.tsinghua.edu.cn
 IdP认证通过后，自动返回到gitlab,此时己登录进入gitlab
 
 ![gitlab-demo-2](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/gitlab-demo-2.png)
+
+
+关于去除gitlab首页的登录和注册功能：[点此链接查看](https://github.com/jennyzhang8800/os_platform/blob/master/gitlab-signup-signin-disabled.md)
