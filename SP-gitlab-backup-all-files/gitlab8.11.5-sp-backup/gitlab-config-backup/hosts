@@ -1,0 +1,11 @@
+127.0.0.1	localhost	gitlab
+127.0.0.1	sp.edx.org	sp
+192.168.1.136   sp.edx.org
+192.168.1.135	openedx.cs.tsinghua.edu.cn	openedx
+192.168.1.137	idp.edx.org	idp
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
