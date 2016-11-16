@@ -1,6 +1,7 @@
 <h1 id="gitlab"> 1.gitlab最新版本的安装</h1>
 
 > 安装过程类似，区别在于第三步 sudo apt-get install gitlab-ce 不指定版本号，则安装的是最新版本。 
+
 ## 1.1环境
 
     gitlab版本：GitLab CE Omnibus 8.11.5 
