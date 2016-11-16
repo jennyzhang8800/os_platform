@@ -12,7 +12,11 @@ sudo vi /edx/app/edxapp/lms.env.json
 "EMAIL_USE_TLS": true,
 "SITE_NAME": "cherry.cs.tsinghua.edu.cn", 
 "DEFAULT_FROM_EMAIL":jennyzhang8800@163.com"
+
 ```
+
+![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/lms-cms.env.json.png)
+
 ## 2.配置发件账号和密码
 ```
 sudo vi /edx/app/edxapp/cms.auth.json
@@ -31,3 +35,4 @@ sudo /edx/bin/supervisorctl  restart edxapp_worker:
 ```
 目前仍收不到邮件，出错原因如下：
 
+![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81%E5%A4%B1%E8%B4%A5.png)
