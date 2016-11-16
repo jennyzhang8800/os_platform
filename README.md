@@ -49,12 +49,12 @@
 | 机器名        | IP        | 外部访问链接 |
 |:-------------:|:-------------:|:-------------:|
 | openLDAP      | 192.168.1.138 | https://166.111.68.101/mooc/ldapadmin/ |
-| IdP     | 192.168.1.137     |   http:cherry.cs.tsinghua.edu.cn |
+| IdP     | 192.168.1.137     |   http:os.cs.tsinghua.edu.cn/idp |
 | gitlab     | 192.168.1.136     |   http:apple.cs.tsinghua.edu.cn |
 | open edx     | 192.168.1.135     |   http:cherry.cs.tsinghua.edu.cn |
 
 
-
+<hr>
 <h1 id="gitlab"> 1.gitlab的安装</h1>
 ## 1.1环境
 
