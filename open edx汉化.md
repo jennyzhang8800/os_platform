@@ -8,6 +8,7 @@
 sudo -u edxapp bash
 source /edx/app/edxapp/edxapp_env
 ```
+![edx-0](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx-0.png)
 
 ## 2.删除现有语言包并上传新语言包
 ```
@@ -17,13 +18,21 @@ wget http://mirrors.edustack.org/LC_MESSAGES/django.po
 wget http://mirrors.edustack.org/LC_MESSAGES/djangojs.po
 
 ```
+![edx-1](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx-1.png)
+
 ## 3.执行翻译
 ```
 cd /edx/app/edxapp/edx-platform
 paver i18n_fastgenerate
 ```
+
+![edx-2](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx-2.png)
+
 ## 4.退出edxapp账户并重启edxapp
 ```
 exit
 sudo /edx/bin/supervisorctl restart edxapp:
 ```
+![edx-3](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx-3.png)
+
+至此己成功完成汉化！
