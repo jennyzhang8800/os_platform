@@ -14,6 +14,7 @@
 
 <hr/>
 
+
 <h1 id="framework">框架图</h1>
 ![framework](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/Shibboleth-framework.png)
 
@@ -41,6 +42,19 @@
 用户现在再次尝试访问受保护的资源，但是这一次用户己经有一个会话并且资源知道用户是谁。有了这些信息，资源将会服务用户的请求并且发送用户请求的数据
 
 <hr/>
+
+<h1>机器准备</h1>
+四台虚拟机，操作系统为Ubuntu12.04
+
+| 机器名        | IP        | 外部访问链接 |
+|:-------------:|:-------------:|:-------------:|
+| openLDAP      | 192.168.1.138 | https://166.111.68.101/mooc/ldapadmin/ |
+| IdP     | 192.168.1.137     |   http:cherry.cs.tsinghua.edu.cn |
+| gitlab     | 192.168.1.136     |   http:apple.cs.tsinghua.edu.cn |
+| open edx     | 192.168.1.135     |   http:cherry.cs.tsinghua.edu.cn |
+
+
+
 <h1 id="gitlab"> 1.gitlab的安装</h1>
 ## 1.1环境
 
