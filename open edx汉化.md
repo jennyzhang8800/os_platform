@@ -1,4 +1,4 @@
-# open edx汉化.md
+# open edx汉化
 
 > 参考的是edustack.org给出的方法 [点此查看](http://edustack.org/2015/10/26/open-edx-cypress%E5%AE%8C%E6%95%B4%E6%B1%89%E5%8C%96%E8%AF%AD%E8%A8%80%E5%8C%85/)
 
