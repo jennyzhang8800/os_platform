@@ -7,7 +7,7 @@ sudo vi /edx/app/edxapp/lms.env.json
 ```
 在以上2个文件里设置
 ```
-"EMAIL_HOST": "mail.163.com",
+"EMAIL_HOST": "smtp.163.com",
 "EMAIL_PORT": 25,
 "EMAIL_USE_TLS": true,
 "SITE_NAME": "cherry.cs.tsinghua.edu.cn", 
@@ -24,7 +24,7 @@ sudo vi /edx/app/edxapp/lms.auth.json
 ```
 在以上2个文件里设置
 ```
-"EMAIL_HOST_USER": "jennyzhang8800",
+"EMAIL_HOST_USER": "jennyzhang8800@163.com",
 "EMAIL_HOST_PASSWORD":"*****",
 ```
 
@@ -33,6 +33,4 @@ sudo vi /edx/app/edxapp/lms.auth.json
 sudo /edx/bin/supervisorctl  restart edxapp:
 sudo /edx/bin/supervisorctl  restart edxapp_worker:
 ```
-目前仍收不到邮件，出错原因如下：
 
-![picture](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81%E5%A4%B1%E8%B4%A5.png)
