@@ -10,7 +10,18 @@ source /edx/app/edxapp/edxapp_env
 ```
 ![edx-0](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx-0.png)
 
-## 2.删除现有语言包并上传新语言包
+
+## 2.修改配置文件
+修改lms.env.json和cms.env.json这两个配置文件，把
+`"LANGUAGE_CODE": "en"` 改为 `"LANGUAGE_CODE": "zh-hans"`
+
+```
+cd /edx/app/edxapp/
+vi lms.env.json
+vi cms.env.json
+```
+
+## 3.删除现有语言包并上传新语言包
 ```
 cd /edx/app/edxapp/edx-platform/conf/locale/zh_CN/LC_MESSAGES/
 rm *
@@ -20,7 +31,7 @@ wget http://mirrors.edustack.org/LC_MESSAGES/djangojs.po
 ```
 ![edx-1](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx-1.png)
 
-## 3.执行翻译
+## 4.执行翻译
 ```
 cd /edx/app/edxapp/edx-platform
 paver i18n_fastgenerate
@@ -28,7 +39,7 @@ paver i18n_fastgenerate
 
 ![edx-2](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx-2.png)
 
-## 4.退出edxapp账户并重启edxapp
+## 5.退出edxapp账户并重启edxapp
 ```
 exit
 sudo /edx/bin/supervisorctl restart edxapp:
