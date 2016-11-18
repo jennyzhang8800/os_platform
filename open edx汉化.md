@@ -20,7 +20,7 @@ cd /edx/app/edxapp/
 vi lms.env.json
 vi cms.env.json
 ```
-
+![edx-1](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/edx-to-chinese.png)
 ## 3.删除现有语言包并上传新语言包
 ```
 cd /edx/app/edxapp/edx-platform/conf/locale/zh_CN/LC_MESSAGES/
