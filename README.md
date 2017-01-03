@@ -11,7 +11,7 @@
  + [部署IdP](#IdP)
  + [布署Open edX端的SP](#SP-edx)
  + [布署Gitlabu端的SP](#SP-gitlab)
-
+* [配置文件备份](https://github.com/jennyzhang8800/os_platform/tree/master/backup)
 <hr/>
 
 
