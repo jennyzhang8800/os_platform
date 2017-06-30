@@ -1,5 +1,5 @@
 # MOOC 平台
-以下配置文件涉及的内容有：gitlab的安装，Open edX的安装，利用Shibboleth实现以gitlab和Open edX作为两个SP实现SSO（单点登录）。
+以下配置文件涉及的内容有：gitlab的安装，Open edX的安装，docker的实验环境配置，利用Shibboleth实现以gitlab和Open edX作为两个SP实现SSO（单点登录）。
 <hr/>
 
 **目录**
@@ -11,6 +11,7 @@
  + [部署IdP](#IdP)
  + [布署Open edX端的SP](#SP-edx)
  + [布署Gitlabu端的SP](#SP-gitlab)
+* [docker的实验环境配置](#docker)
 * [配置文件备份](https://github.com/jennyzhang8800/os_platform/tree/master/backup)
 <hr/>
 
@@ -263,6 +264,7 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 
 ---
   
+
 <h1 id="Shibboleth"> 3.Shibboleth</h1>
 
 
@@ -1309,3 +1311,13 @@ IdP认证通过后，自动返回到gitlab,此时己登录进入gitlab
 
 
 关于去除gitlab首页的登录和注册功能：[点此链接查看](https://github.com/jennyzhang8800/os_platform/blob/master/gitlab-signup-signin-disabled.md)
+
+<h1 id="docker"> 4.docker的实验环境配置</h1>
+
+实验楼中使用的docker模板的配置流程：
+
+	$ sudo apt-get update
+  	$ sudo apt-get upgrade
+  	$ sudo apt-get install build-essential git qemu-system-x86 vim-gnome gdb cgdb eclipse-cdt make diffutils exuberant-ctags tmux openssh-server cscope meld qgit gitg gcc-multilib gcc-multilib g++-multilib
+
+说明：由于没有图形界面，在进行实验时需要使用nox选项，比如make qemu-nox, make debug-nox
