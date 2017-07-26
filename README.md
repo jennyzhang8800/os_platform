@@ -17,6 +17,7 @@
 
 
 <h1 id="framework">框架图</h1>
+
 ![framework](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/Shibboleth-framework.png)
 
 单点登录的过程如下：（以Gitlab为例）
@@ -242,6 +243,7 @@ sudo update-alternatives --config java
 选择java-7-openjdk
 
 如下图所示：
+
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-2.png)
 
 (2)设置环境变量：
@@ -259,6 +261,7 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/san
 ```
 ----------------------------
 如果出现红色（fail）,但是又ignoring，则可以不用管，还是会安装成功的。如出现[mysql | Look for mysql 5.6]失败，后面它ignoring了，也不会影响安装成功。
+
 ![netstat -anptl](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/open-edx-install-3.png)
 
 
