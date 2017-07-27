@@ -196,8 +196,8 @@ sudo reboot
 
 依次输入下面的两条命令：
 ```
-wget https://raw.githubusercontent.com/edx/configuration/master/util/install/ansible-bootstrap.sh -O - | sudo bash
-wget https://raw.githubusercontent.com/edx/configuration/master/util/install/sandbox.sh -O - | bash
+sudo wget https://raw.githubusercontent.com/edx/configuration/master/util/install/ansible-bootstrap.sh -O - | sudo bash
+sudo wget https://raw.githubusercontent.com/edx/configuration/master/util/install/sandbox.sh -O - | bash
 ```
 **注意!** 一般来说第一条命令可以正常执行。第二条命令就开始安装了，耗时比较长，如果顺利的话2个小时左右，但一般都不会一次成功…………出现错误了（会以红色标示），安装会中止，这时候就需要根据出错的提示解决掉错误，然后重新执行第二条命令，如此反复，直到没有错误（failed=0）,就安装成功了！
 
