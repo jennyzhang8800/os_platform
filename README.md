@@ -1335,6 +1335,7 @@ IdP认证通过后，自动返回到gitlab,此时己登录进入gitlab
 Authentication failed: SAML login failed: ['invalid_response'] (Timing issues (please check your clock settings))
 ```
 ![timeError](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/timeError.png)
+
 说明edx（即SP）机器的时间与Idp(shibooleth)机器的时间不同步。因为shibboleth有时间戳机制，所以，解决的方法是把机器的时间同步。输入下面的命令：
 ```
 sudo ntpdate -u 210.72.145.44
