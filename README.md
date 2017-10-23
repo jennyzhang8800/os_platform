@@ -13,6 +13,7 @@
  + [布署Gitlabu端的SP](#SP-gitlab)
 * [docker的实验环境配置](#docker)
 * [配置文件备份](https://github.com/jennyzhang8800/os_platform/tree/master/backup)
+* [问题汇总](#question)
 <hr/>
 
 
@@ -1324,3 +1325,19 @@ IdP认证通过后，自动返回到gitlab,此时己登录进入gitlab
   	$ sudo apt-get install build-essential git qemu-system-x86 vim-gnome gdb cgdb eclipse-cdt make diffutils exuberant-ctags tmux openssh-server cscope meld qgit gitg gcc-multilib gcc-multilib g++-multilib
 
 说明：由于没有图形界面，在进行实验时需要使用nox选项，比如make qemu-nox, make debug-nox
+
+
+
+<h1 id="question">问题</h1>
+
++ edx登录时出现下面的错误：
+```
+Authentication failed: SAML login failed: ['invalid_response'] (Timing issues (please check your clock settings))
+```
+![timeError](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/timeError.png)
+说明edx（即SP）机器的时间与Idp(shibooleth)机器的时间不同步。因为shibboleth有时间戳机制，所以，解决的方法是把机器的时间同步。输入下面的命令：
+```
+sudo ntpdate -u 210.72.145.44
+```
+
+`210.72.145.44：中国国家授时中心的官方服务器。`
