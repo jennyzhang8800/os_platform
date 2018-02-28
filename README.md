@@ -1343,6 +1343,14 @@ sudo ntpdate -u 210.72.145.44
 
 `210.72.145.44：中国国家授时中心的官方服务器。`
 
+如果上述IP无法访问到，则设成清华的NTP
+
+
+```
+sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
+```
+
+
 + **shibboleth登录时出现下面的错误：**
 
 "Error Message: Message did not meet security requirements"
@@ -1353,8 +1361,8 @@ sudo ntpdate -u 210.72.145.44
 解决方法是把机器的时间同步：
 
 ```
-sudo ntpdate -u 210.72.145.44
+sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 ```
 
-`210.72.145.44：中国国家授时中心的官方服务器。`
+
 
