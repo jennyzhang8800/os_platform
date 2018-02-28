@@ -1330,7 +1330,7 @@ IdP认证通过后，自动返回到gitlab,此时己登录进入gitlab
 
 <h1 id="question">问题</h1>
 
-+ edx登录时出现下面的错误：
++ **edx登录时出现下面的错误：**
 ```
 Authentication failed: SAML login failed: ['invalid_response'] (Timing issues (please check your clock settings))
 ```
@@ -1342,3 +1342,19 @@ sudo ntpdate -u 210.72.145.44
 ```
 
 `210.72.145.44：中国国家授时中心的官方服务器。`
+
++ **shibboleth登录时出现下面的错误：**
+
+"Error Message: Message did not meet security requirements"
+
+![](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/ShibbolethTimeError.png)
+原因是由于SP和IDP出现时钟偏移，导致安全认证不成功。
+
+解决方法是把机器的时间同步：
+
+```
+sudo ntpdate -u 210.72.145.44
+```
+
+`210.72.145.44：中国国家授时中心的官方服务器。`
+
