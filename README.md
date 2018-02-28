@@ -1348,7 +1348,7 @@ sudo ntpdate -u 210.72.145.44
 "Error Message: Message did not meet security requirements"
 
 ![](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/ShibbolethTimeError.png)
-原因是由于SP和IDP出现时钟偏移，导致安全认证不成功。
+原因是由于SP和IDP出现时钟偏移，导致安全认证不成功。具体说明见：http://shibboleth.net/pipermail/users/2013-November/013235.html
 
 解决方法是把机器的时间同步：
 
