@@ -1330,7 +1330,7 @@ IdP认证通过后，自动返回到gitlab,此时己登录进入gitlab
 
 <h1 id="question">问题</h1>
 
-+ **edx登录时出现下面的错误：**
+### edx登录时出现下面的错误：
 ```
 Authentication failed: SAML login failed: ['invalid_response'] (Timing issues (please check your clock settings))
 ```
@@ -1351,7 +1351,7 @@ sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 ```
 
 
-+ **shibboleth登录时出现下面的错误：**
+### shibboleth登录时出现下面的错误：
 
 "Error Message: Message did not meet security requirements"
 
@@ -1364,24 +1364,34 @@ sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 ```
 
-+ **学堂在线“实验账号初始化”出错：**
+### 学堂在线“实验账号初始化”出错：
 
-查看日志：/edx/var/log/lms/edx.log
+（1）出错状态：
+
+```
+学堂在线操作系统课0.2节的“在线实验平台”中“实验账号初始化”时常不能正常显示。问题是，不显示用户账号信息。
+```
+
+(2) 查看日志：/edx/var/log/lms/edx.log
 
 对日志进行错误分析：
 
 ![](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/错误分析.png)
 
 
-找到出错的代码/edx/app/edxapp/edx-platform/common/djangoapps/student/views.py 有实验账号初始化的代码。
+(3) 找到出错的代码/edx/app/edxapp/edx-platform/common/djangoapps/student/views.py 有实验账号初始化的代码。
 
-![](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/代码.png)
+![](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/代码分析.png)
 
 分析出错原因在于：正常情况下
 ```
  browser.find_element_by_link_text("Shibboleth").click()
 ```
-应该会跳转到shibboleth登录页面，但是这里没有跳转，所以后面的代码里找不到元素。导致views.py里的AutoLoginGitlab()函数出现异常，而原代码里出现异常时没有shibbileth账号信息，现在把异常处理的代码改一下，即可返回shibbileth账号信息。
+应该会跳转到shibboleth登录页面，但是这里没有跳转，所以后面的代码里定位不到表单元素“j_username”。从而导致views.py里的AutoLoginGitlab()函数出现异常，而原代码里出现异常时没有shibbileth账号信息，因此学堂在线不显示用户账号信息。
+
+（4）解决方法
+
+现在把异常处理的代码改一下，即可返回shibbileth账号信息。
 
 ```
 
@@ -1396,6 +1406,8 @@ sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 
 ```
 但其实edx和gitlab的shibboleth账号己经创建成功，用户己经可以正常登录了，只是gitlab仓库中没有自动为用户fork “ucore_lab”。用户可手动fork，不影响使用。
+
+上述是暂时的解决方法。经过排查，现在一个可能的原因是edx这台机器访问不了外网，而shibboleth登录时会跳转到http://os.cs.tsinghua.edu.cn/idp/Authn/UserPassword。 可能是访问不了这个URL所以登录没有反应。 待外网恢复后再试。
 
 
 
