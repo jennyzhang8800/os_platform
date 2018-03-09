@@ -1364,5 +1364,39 @@ sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 ```
 
++ **学堂在线“实验账号初始化”出错：**
+
+查看日志：/edx/var/log/lms/edx.log
+
+对日志进行错误分析：
+
+![](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/错误分析.png)
+
+
+找到出错的代码/edx/app/edxapp/edx-platform/common/djangoapps/student/views.py 有实验账号初始化的代码。
+
+![](https://github.com/jennyzhang8800/os_platform/blob/master/pictures/代码.png)
+
+分析出错原因在于：正常情况下
+```
+ browser.find_element_by_link_text("Shibboleth").click()
+```
+应该会跳转到shibboleth登录页面，但是这里没有跳转，所以后面的代码里找不到元素。导致views.py里的AutoLoginGitlab()函数出现异常，而原代码里出现异常时没有shibbileth账号信息，现在把异常处理的代码改一下，即可返回shibbileth账号信息。
+
+```
+
+ #auto sign on gitlab to bind account
+ try:
+     AutoLoginGit(name,password)
+ except Exception,e:
+     response += "<p>bind gitlab account failed, please login in gitlab manually</p>"
+     log.info(e)
+     return HttpResponse(response) ##加上这一行
+ return HttpResponse(response)
+
+```
+但其实edx和gitlab的shibboleth账号己经创建成功，用户己经可以正常登录了，只是gitlab仓库中没有自动为用户fork “ucore_lab”。用户可手动fork，不影响使用。
+
+
 
 
