@@ -1330,7 +1330,7 @@ IdP认证通过后，自动返回到gitlab,此时己登录进入gitlab
 
 <h1 id="question">问题</h1>
 
-### edx登录时出现下面的错误：
+## 问题一： edx登录时出现下面的错误：
 ```
 Authentication failed: SAML login failed: ['invalid_response'] (Timing issues (please check your clock settings))
 ```
@@ -1351,7 +1351,7 @@ sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 ```
 
 
-### shibboleth登录时出现下面的错误：
+## 问题二： shibboleth登录时出现下面的错误：
 
 "Error Message: Message did not meet security requirements"
 
@@ -1364,7 +1364,7 @@ sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 sudo ntpdate -u ntp.tuna.tsinghua.edu.cn
 ```
 
-### 学堂在线“实验账号初始化”出错：
+## 问题三：学堂在线“实验账号初始化”出错：
 
 （1）出错状态：
 
